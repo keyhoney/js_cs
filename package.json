@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "build:encrypted": "node scripts/build_encrypted.cjs",
+    "build:encrypted": "node ./scripts/build_encrypted.cjs",
     "preview": "vite preview"
   },
   "dependencies": {
