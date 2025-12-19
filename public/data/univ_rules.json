@@ -1,7 +1,7 @@
 {
   "version": "key_Honey_2026",
   "rules": {
-    "경북대": {
+    "경북대학교": {
       "formulas": [
         {
           "id": "knu_humanities",
@@ -10,7 +10,7 @@
           "weights": { "kor": 1.875, "math": 1.25, "eng": 1.25, "exp": 1.25 },
           "english_table": [100, 97, 92, 87, 82, 77, 72, 67, 62],
           "history_table": [10, 10, 10, 10, 9.8, 9.6, 9.4, 9.2, 9],
-          "conversion_table_id": "경북대_변표"
+          "conversion_table_id": "경북대학교_변표"
         },
         {
           "id": "knu_natural",
@@ -19,7 +19,7 @@
           "weights": { "kor": 1.25, "math": 1.875, "eng": 1.25, "exp": 1.25 },
           "english_table": [100, 97, 92, 87, 82, 77, 72, 67, 62],
           "history_table": [10, 10, 10, 10, 9.8, 9.6, 9.4, 9.2, 9],
-          "conversion_table_id": "경북대_변표",
+          "conversion_table_id": "경북대학교_변표",
           "bonus": {
             "exp": {
               "subjects": ["물리학1", "화학1", "생명과학1", "지구과학1", "물리학2", "화학2", "생명과학2", "지구과학2"],
@@ -34,7 +34,7 @@
           "weights": { "kor": 1.25, "math": 1.875, "eng": 1.25, "exp": 1.25 },
           "english_table": [100, 97, 92, 87, 82, 77, 72, 67, 62],
           "history_table": [10, 10, 10, 10, 9.8, 9.6, 9.4, 9.2, 9],
-          "conversion_table_id": "경북대_변표",
+          "conversion_table_id": "경북대학교_변표",
           "restrictions": {
             "math": ["미적분", "기하"],
             "exp": ["물리학1", "화학1", "생명과학1", "지구과학1", "물리학2", "화학2", "생명과학2", "지구과학2"],
@@ -52,7 +52,7 @@
           "weights": { "kor": 1.5625, "math": 1.5625, "eng": 1.25, "exp": 1.25 },
           "english_table": [100, 97, 92, 87, 82, 77, 72, 67, 62],
           "history_table": [10, 10, 10, 10, 9.8, 9.6, 9.4, 9.2, 9],
-          "conversion_table_id": "경북대_변표"
+          "conversion_table_id": "경북대학교_변표"
         },
         {
           "id": "knu_scitech",
@@ -61,7 +61,7 @@
           "weights": { "kor": 0, "math": 2.5, "eng": 2.5, "exp": 1.25 },
           "english_table": [100, 97, 92, 87, 82, 77, 72, 67, 62],
           "history_table": [10, 10, 10, 10, 9.8, 9.6, 9.4, 9.2, 9],
-          "conversion_table_id": "경북대_변표",
+          "conversion_table_id": "경북대학교_변표",
           "bonus": {
             "exp": {
               "subjects": ["물리학1", "화학1", "생명과학1", "지구과학1", "물리학2", "화학2", "생명과학2", "지구과학2"],
@@ -76,7 +76,7 @@
           "weights": { "kor": 2.5, "math": 0, "eng": 2.5, "exp": 2.5 },
           "english_table": [100, 97, 92, 87, 82, 77, 72, 67, 62],
           "history_table": [10, 10, 10, 10, 9.8, 9.6, 9.4, 9.2, 9],
-          "conversion_table_id": "경북대_변표"
+          "conversion_table_id": "경북대학교_변표"
         },
         {
           "id": "knu_sports_edu",
@@ -85,11 +85,11 @@
           "weights": { "kor": 1.875, "math": 1.25, "eng": 0.625, "exp": 1.25 },
           "english_table": [100, 97, 92, 87, 82, 77, 72, 67, 62],
           "history_table": [10, 10, 10, 10, 9.8, 9.6, 9.4, 9.2, 9],
-          "conversion_table_id": "경북대_변표"
+          "conversion_table_id": "경북대학교_변표"
         }
       ]
     },
-    "영남대": {
+    "영남대학교": {
       "formulas": [
         {
           "id": "yu_humanities",
@@ -145,7 +145,7 @@
         }
       ]
     },
-    "계명대": {
+    "계명대학교": {
       "formulas": [
         {
           "id": "kmu_humanities",
@@ -214,7 +214,7 @@
         }
       ]
     },
-    "부경대": {
+    "부경대학교": {
       "formulas": [
         {
           "id": "pknu_humanities",
@@ -275,7 +275,7 @@
         }
       ]
     },
-    "충남대": {
+    "충남대학교": {
       "formulas": [
         {
           "id": "cnu_humanities",
@@ -333,7 +333,7 @@
         }
       ]
     },
-    "충북대": {
+    "충북대학교": {
       "formulas": [
         {
           "id": "cbnu_human",
@@ -400,7 +400,7 @@
         }
       ]
     },
-    "한국해양대": {
+    "한국해양대학교": {
       "formulas": [
         {
           "id": "kmou_haesa",
@@ -451,7 +451,7 @@
         }
       ]
     },
-    "금오공대": {
+    "금오공과대학교": {
       "formulas": [
         {
           "id": "kit_eng",
@@ -509,13 +509,13 @@
         }
       ]
     },
-    "부산대": {
+    "부산대학교": {
       "formulas": [
         {
           "id": "pnu_humanities",
           "label": "인문·사회계열",
           "type": "mixed_converted",
-          "conversion_table_id": "부산대_변표",
+          "conversion_table_id": "부산대학교_변표",
           "weights": { "kor": 1.5, "math": 1.25, "eng": 1.0, "exp": 1.25 },
           "english_table": [200, 198, 195, 190, 185, 180, 175, 170, 165],
           "history_table": [10, 10, 10, 10, 9.8, 9.6, 9.4, 9.2, 9.0]
@@ -524,7 +524,7 @@
           "id": "pnu_natural_1",
           "label": "자연계열[1] (미/기, 과탐 필수)",
           "type": "mixed_converted",
-          "conversion_table_id": "부산대_변표",
+          "conversion_table_id": "부산대학교_변표",
           "weights": { "kor": 1.0, "math": 1.5, "eng": 1.0, "exp": 1.5 },
           "english_table": [200, 198, 195, 190, 185, 180, 175, 170, 165],
           "history_table": [10, 10, 10, 10, 9.8, 9.6, 9.4, 9.2, 9.0],
@@ -538,7 +538,7 @@
           "id": "pnu_natural_2",
           "label": "자연계열[2] (과탐 필수)",
           "type": "mixed_converted",
-          "conversion_table_id": "부산대_변표",
+          "conversion_table_id": "부산대학교_변표",
           "weights": { "kor": 1.0, "math": 1.5, "eng": 1.0, "exp": 1.5 },
           "english_table": [200, 198, 195, 190, 185, 180, 175, 170, 165],
           "history_table": [10, 10, 10, 10, 9.8, 9.6, 9.4, 9.2, 9.0],
@@ -551,7 +551,7 @@
           "id": "pnu_natural_3",
           "label": "자연계열[3] (과탐 5% 가산)",
           "type": "mixed_converted",
-          "conversion_table_id": "부산대_변표",
+          "conversion_table_id": "부산대학교_변표",
           "weights": { "kor": 1.0, "math": 1.5, "eng": 1.0, "exp": 1.5 },
           "english_table": [200, 198, 195, 190, 185, 180, 175, 170, 165],
           "history_table": [10, 10, 10, 10, 9.8, 9.6, 9.4, 9.2, 9.0],
@@ -560,10 +560,20 @@
           }
         },
         {
+          "id": "pnu_natural_4",
+          "label": "자연계열[3]",
+          "type": "mixed_converted",
+          "conversion_table_id": "부산대학교_변표",
+          "weights": { "kor": 1.0, "math": 1.5, "eng": 1.0, "exp": 1.5 },
+          "english_table": [200, 198, 195, 190, 185, 180, 175, 170, 165],
+          "history_table": [10, 10, 10, 10, 9.8, 9.6, 9.4, 9.2, 9.0]
+        },
+
+        {
           "id": "pnu_med_dent",
           "label": "의예·치의예·한의예",
           "type": "mixed_converted",
-          "conversion_table_id": "부산대_변표",
+          "conversion_table_id": "부산대학교_변표",
           "weights": { "kor": 0.8, "math": 1.2, "eng": 1.0, "exp": 1.2 },
           "english_table": [160, 158.4, 156, 152, 148, 144, 140, 136, 132],
           "history_table": [10, 10, 10, 10, 9.8, 9.6, 9.4, 9.2, 9.0],
@@ -577,7 +587,7 @@
           "id": "pnu_arts",
           "label": "예술대학",
           "type": "mixed_converted",
-          "conversion_table_id": "부산대_변표",
+          "conversion_table_id": "부산대학교_변표",
           "weights": { "kor": 1.5, "math": 0, "eng": 1.0, "exp": 1.0 },
           "english_table": [100, 99, 97.5, 95, 92.5, 90, 87.5, 85, 82.5],
           "history_table": [10, 10, 10, 10, 9.8, 9.6, 9.4, 9.2, 9.0]
@@ -586,7 +596,7 @@
           "id": "pnu_sports",
           "label": "스포츠과학",
           "type": "mixed_converted",
-          "conversion_table_id": "부산대_변표",
+          "conversion_table_id": "부산대학교_변표",
           "weights": { "kor": 1.5, "math": 0, "eng": 1.0, "exp": 1.5 },
           "english_table": [200, 198, 195, 190, 185, 180, 175, 170, 165],
           "history_table": [10, 10, 10, 10, 9.8, 9.6, 9.4, 9.2, 9.0]
