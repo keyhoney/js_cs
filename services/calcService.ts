@@ -392,10 +392,10 @@ const calculateSingleFormula = (
   let mathCalc = mathVal * weights.math;
   let expCalc = expValToReflect * weights.exp;
   
-  // 부경대 방식 가산점: 가중치 적용 후 추가 점수로 더함
+  // 부경대 방식 가산점: 가중치 적용 후 추가 점수로 더함 (가산점은 가중치 없이 단순 합산)
   if (bonusType === 'pknu_additive') {
-    mathCalc += mathBonusVal * weights.math;
-    expCalc += expBonusVal * weights.exp;
+    mathCalc += mathBonusVal;
+    expCalc += expBonusVal;
   }
   
   // 영어 점수 계산 (특수 규칙에서도 사용되므로 미리 계산)

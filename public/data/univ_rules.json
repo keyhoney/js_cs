@@ -568,7 +568,15 @@
           "english_table": [200, 198, 195, 190, 185, 180, 175, 170, 165],
           "history_table": [10, 10, 10, 10, 9.8, 9.6, 9.4, 9.2, 9.0]
         },
-
+        {
+          "id": "pnu_autonomous",
+          "label": "자유전공",
+          "type": "mixed_converted",
+          "conversion_table_id": "부산대학교_변표",
+          "weights": { "kor": 1.5, "math": 1.5, "eng": 1.0, "exp": 1 },
+          "english_table": [200, 198, 195, 190, 185, 180, 175, 170, 165],
+          "history_table": [10, 10, 10, 10, 9.8, 9.6, 9.4, 9.2, 9.0]
+        },
         {
           "id": "pnu_med_dent",
           "label": "의예·치의예·한의예",
