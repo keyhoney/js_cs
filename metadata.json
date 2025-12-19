@@ -1,0 +1,5 @@
+{
+  "name": "Jeongsi Counselor 2026",
+  "description": "A secure, client-side college admission counseling web application. Features offline architecture, local data storage, and dynamic scoring rules.",
+  "requestFramePermissions": []
+}
