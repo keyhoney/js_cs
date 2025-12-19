@@ -1,3 +1,0 @@
-# Cloudflare Pages redirects for SPA
-# SPA fallback
-/js_cs/*  /js_cs/index.html  200
