@@ -351,14 +351,17 @@ const calculateSingleFormula = (
     }
 
     if (bonus?.exp) {
-      // 탐구1 가산점 계산
-      if (subjectOptions?.exp1 && bonus.exp.subjects.includes(subjectOptions.exp1)) {
+      // 과학탐구 과목 목록 (가산점 적용 대상)
+      const scienceSubjects = ["물리학1", "화학1", "생명과학1", "지구과학1", "물리학2", "화학2", "생명과학2", "지구과학2"];
+      
+      // 탐구1 가산점 계산: 과학탐구 과목이면 가산점 부여
+      if (subjectOptions?.exp1 && scienceSubjects.includes(subjectOptions.exp1)) {
         // 부경대 방식: II 과목(물리학2 등)은 5%, I 과목(물리학1 등)은 3%
         const ratio = subjectOptions.exp1.includes('2') ? 0.05 : 0.03;
         expBonusVal += scores.exp1 * ratio;
       }
-      // 탐구2 가산점 계산
-      if (subjectOptions?.exp2 && bonus.exp.subjects.includes(subjectOptions.exp2)) {
+      // 탐구2 가산점 계산: 과학탐구 과목이면 가산점 부여
+      if (subjectOptions?.exp2 && scienceSubjects.includes(subjectOptions.exp2)) {
         const ratio = subjectOptions.exp2.includes('2') ? 0.05 : 0.03;
         expBonusVal += scores.exp2 * ratio;
       }
@@ -370,11 +373,31 @@ const calculateSingleFormula = (
       mathVal = mathVal * (1 + bonus.math.ratio);
     }
     if (bonus?.exp) {
-      if (subjectOptions?.exp1 && bonus.exp.subjects.includes(subjectOptions.exp1)) {
-        exp1Val = exp1Val * (1 + bonus.exp.ratio);
-      }
-      if (subjectOptions?.exp2 && bonus.exp.subjects.includes(subjectOptions.exp2)) {
-        exp2Val = exp2Val * (1 + bonus.exp.ratio);
+      // 과학탐구 과목 목록 (가산점 적용 대상)
+      const scienceSubjects = ["물리학1", "화학1", "생명과학1", "지구과학1", "물리학2", "화학2", "생명과학2", "지구과학2"];
+      
+      // 영남대 방식: 두 과목 모두 과학탐구여야만 가산점 부여
+      if (formula.id?.startsWith('yu_')) {
+        const exp1IsScience = subjectOptions?.exp1 && scienceSubjects.includes(subjectOptions.exp1) && bonus.exp.subjects.includes(subjectOptions.exp1);
+        const exp2IsScience = subjectOptions?.exp2 && scienceSubjects.includes(subjectOptions.exp2) && bonus.exp.subjects.includes(subjectOptions.exp2);
+        
+        // 두 과목 모두 과학탐구일 때만 가산점 부여
+        if (exp1IsScience && exp2IsScience) {
+          exp1Val = exp1Val * (1 + bonus.exp.ratio);
+          exp2Val = exp2Val * (1 + bonus.exp.ratio);
+        }
+      } else {
+        // 기본 방식: 한 과목이라도 과학탐구이면 해당 과목에 가산점 부여
+        if (subjectOptions?.exp1 && 
+            scienceSubjects.includes(subjectOptions.exp1) && 
+            bonus.exp.subjects.includes(subjectOptions.exp1)) {
+          exp1Val = exp1Val * (1 + bonus.exp.ratio);
+        }
+        if (subjectOptions?.exp2 && 
+            scienceSubjects.includes(subjectOptions.exp2) && 
+            bonus.exp.subjects.includes(subjectOptions.exp2)) {
+          exp2Val = exp2Val * (1 + bonus.exp.ratio);
+        }
       }
     }
   }
