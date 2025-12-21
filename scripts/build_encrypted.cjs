@@ -62,15 +62,41 @@ function encryptInPlace() {
       plain = buf.toString('utf8');
     }
     
-    // 이미 암호문이어도 다시 암호화해도 되긴 하지만(복호 실패 가능),
-    // 안전을 위해 JSON 파싱이 되면 "평문"으로 보고 암호화합니다.
+    // 이미 암호화된 파일인지 확인: JSON 파싱 시도
+    let isEncrypted = false;
     try {
       JSON.parse(plain);
+      // JSON 파싱 성공 = 평문 JSON
     } catch {
-      // JSON이 아니면 이미 암호문/텍스트일 수 있으니 그대로 두지 말고, 명확히 실패 처리
-      throw new Error(`암호화 대상 파일이 JSON이 아닙니다(이미 암호화되었거나 손상): ${file}`);
+      // JSON 파싱 실패 = 이미 암호화되었을 가능성
+      // 복호화 시도
+      try {
+        const decrypted = crypto.AES.decrypt(plain, DATA_KEY).toString(crypto.enc.Utf8);
+        if (decrypted && decrypted.length > 0) {
+          // 복호화 성공 = 이미 암호화된 파일
+          plain = decrypted;
+          isEncrypted = true;
+          console.log(`  - ${path.basename(file)}: 이미 암호화됨 -> 복호화 후 재암호화`);
+        } else {
+          // 복호화 실패 = 손상된 파일
+          throw new Error(`암호화 대상 파일이 손상되었거나 올바르지 않은 형식입니다: ${file}`);
+        }
+      } catch (decryptError) {
+        // 복호화도 실패 = 손상된 파일
+        throw new Error(`암호화 대상 파일이 JSON이 아니며 복호화도 실패했습니다(파일 손상 가능성): ${file}`);
+      }
+    }
+    
+    // 평문 JSON 확인 (복호화된 경우 이미 확인됨)
+    if (!isEncrypted) {
+      try {
+        JSON.parse(plain);
+      } catch {
+        throw new Error(`파일이 유효한 JSON 형식이 아닙니다: ${file}`);
+      }
     }
 
+    // 암호화
     const cipher = crypto.AES.encrypt(plain, DATA_KEY).toString();
     fs.writeFileSync(file, cipher, 'utf8');
   }
