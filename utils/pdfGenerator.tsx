@@ -1,43 +1,108 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 // @ts-ignore - @react-pdf/renderer 타입 정의 문제
-import { Document, Page, Text, View, StyleSheet, PDFDownloadLink } from '@react-pdf/renderer';
+import { Document, Page, Text, View, StyleSheet, PDFDownloadLink, Font } from '@react-pdf/renderer';
 import { Student, AnalysisResult, ScoreDetail } from '../types';
 
-// PDF 스타일 정의 (고급스럽고 신뢰도 높은 디자인)
+// 한글 폰트 등록 - KoPub Batang 사용
+// 폰트 파일은 public/fonts 폴더에 있으며, BASE_URL을 고려하여 로드
+const registerFonts = async () => {
+  try {
+    // BASE_URL을 사용하여 경로 설정 (빌드 환경에 따라 '/js_cs/' 또는 '/' 일 수 있음)
+    const baseUrl = import.meta.env.BASE_URL || '/';
+    const fontPaths = {
+      light: `${baseUrl}fonts/KoPub Batang Light.ttf`,
+      medium: `${baseUrl}fonts/KoPub Batang Medium.ttf`,
+      bold: `${baseUrl}fonts/KoPub Batang Bold.ttf`,
+    };
+
+    // 각 폰트를 fetch로 로드하여 등록
+    // @ts-ignore - @react-pdf/renderer 타입 정의 문제 (ArrayBuffer 타입)
+    const [lightData, mediumData, boldData] = await Promise.all([
+      fetch(fontPaths.light).then(res => res.arrayBuffer()),
+      fetch(fontPaths.medium).then(res => res.arrayBuffer()),
+      fetch(fontPaths.bold).then(res => res.arrayBuffer()),
+    ]);
+
+    // Font.register를 사용하여 폰트 등록
+    // @ts-ignore - @react-pdf/renderer 타입 정의 문제 (ArrayBuffer를 src로 받을 수 있음)
+    Font.register({
+      family: 'KoPubBatang',
+      fonts: [
+        {
+          // @ts-ignore
+          src: lightData,
+          fontWeight: 300,
+        },
+        {
+          // @ts-ignore
+          src: mediumData,
+          fontWeight: 500,
+        },
+        {
+          // @ts-ignore
+          src: boldData,
+          fontWeight: 700,
+        },
+      ],
+    });
+  } catch (error) {
+    console.error('Font registration failed:', error);
+    // 폰트 등록 실패 시 기본 폰트 사용
+  }
+};
+
+// 컴포넌트 마운트 시 폰트 등록
+registerFonts();
+
+// PDF 스타일 정의 (전문적이고 신뢰감 있는 디자인)
 const styles = StyleSheet.create({
   page: {
-    padding: 40,
-    fontFamily: 'Helvetica',
+    padding: 50,
+    fontFamily: 'KoPubBatang',
     backgroundColor: '#ffffff',
+    fontSize: 10,
+    color: '#1e293b',
+    lineHeight: 1.5,
   },
   header: {
-    marginBottom: 30,
-    paddingBottom: 20,
-    borderBottom: '2px solid #1e40af',
+    marginBottom: 35,
+    paddingBottom: 25,
+    borderBottom: '3px solid #0f172a',
+    backgroundColor: '#f8fafc',
+    padding: 20,
+    borderRadius: 8,
+    marginTop: -10,
+    marginLeft: -10,
+    marginRight: -10,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#1e293b',
-    marginBottom: 8,
+    fontSize: 26,
+    fontWeight: 700, // Bold
+    color: '#0f172a',
+    marginBottom: 10,
+    letterSpacing: 0.5,
   },
   subtitle: {
-    fontSize: 12,
-    color: '#64748b',
+    fontSize: 11,
+    color: '#475569',
     marginBottom: 4,
+    fontWeight: 'normal',
   },
   studentInfo: {
-    backgroundColor: '#f8fafc',
-    padding: 15,
-    borderRadius: 8,
-    marginBottom: 25,
-    borderLeft: '4px solid #3b82f6',
+    backgroundColor: '#f1f5f9',
+    padding: 20,
+    borderRadius: 10,
+    marginBottom: 30,
+    border: '2px solid #cbd5e1',
+    borderLeft: '5px solid #0f172a',
+    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
   },
   studentName: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#1e293b',
-    marginBottom: 10,
+    fontSize: 20,
+    fontWeight: 700, // Bold
+    color: '#0f172a',
+    marginBottom: 15,
+    letterSpacing: 0.3,
   },
   studentScores: {
     flexDirection: 'row',
@@ -50,27 +115,29 @@ const styles = StyleSheet.create({
     marginRight: 15,
   },
   scoreLabel: {
-    fontWeight: 'bold',
+    fontWeight: 700, // Bold
     color: '#64748b',
   },
   section: {
     marginBottom: 25,
   },
   sectionTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#1e293b',
-    marginBottom: 15,
-    paddingBottom: 8,
-    borderBottom: '1px solid #e2e8f0',
+    fontSize: 18,
+    fontWeight: 700, // Bold
+    color: '#0f172a',
+    marginBottom: 20,
+    paddingBottom: 12,
+    borderBottom: '2px solid #0f172a',
+    letterSpacing: 0.5,
   },
   universityCard: {
     backgroundColor: '#ffffff',
-    border: '1px solid #e2e8f0',
-    borderRadius: 8,
-    padding: 15,
-    marginBottom: 15,
-    borderLeft: '4px solid #3b82f6',
+    border: '1.5px solid #cbd5e1',
+    borderRadius: 10,
+    padding: 20,
+    marginBottom: 20,
+    borderLeft: '5px solid #0f172a',
+    boxShadow: '0 2px 6px rgba(0,0,0,0.08)',
   },
   universityHeader: {
     flexDirection: 'row',
@@ -79,37 +146,44 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   universityName: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#1e293b',
-    marginBottom: 4,
+    fontSize: 16,
+    fontWeight: 700, // Bold
+    color: '#0f172a',
+    marginBottom: 6,
+    letterSpacing: 0.2,
   },
   deptName: {
-    fontSize: 11,
-    color: '#64748b',
-    marginBottom: 8,
+    fontSize: 12,
+    color: '#475569',
+    marginBottom: 10,
+    fontWeight: 'normal',
   },
   statusBadge: {
-    padding: '4px 12px',
-    borderRadius: 12,
-    fontSize: 10,
-    fontWeight: 'bold',
+    padding: '6px 14px',
+    borderRadius: 6,
+    fontSize: 11,
+    fontWeight: 700, // Bold
+    border: '1.5px solid',
   },
   statusSafe: {
-    backgroundColor: '#dbeafe',
+    backgroundColor: '#eff6ff',
     color: '#1e40af',
+    borderColor: '#3b82f6',
   },
   statusMatch: {
-    backgroundColor: '#dcfce7',
+    backgroundColor: '#f0fdf4',
     color: '#166534',
+    borderColor: '#22c55e',
   },
   statusUpward: {
-    backgroundColor: '#fef3c7',
+    backgroundColor: '#fffbeb',
     color: '#92400e',
+    borderColor: '#f59e0b',
   },
   statusDanger: {
-    backgroundColor: '#fee2e2',
+    backgroundColor: '#fef2f2',
     color: '#991b1b',
+    borderColor: '#ef4444',
   },
   scoreSection: {
     flexDirection: 'row',
@@ -125,7 +199,7 @@ const styles = StyleSheet.create({
   },
   scoreValue: {
     fontSize: 11,
-    fontWeight: 'bold',
+    fontWeight: 700, // Bold
     color: '#1e293b',
     width: '30%',
     textAlign: 'right',
@@ -159,19 +233,23 @@ const styles = StyleSheet.create({
   },
   cutoffValue: {
     fontSize: 12,
-    fontWeight: 'bold',
+    fontWeight: 700, // Bold
   },
   detailSection: {
     backgroundColor: '#f8fafc',
-    padding: 12,
-    borderRadius: 6,
-    marginTop: 12,
+    padding: 15,
+    borderRadius: 8,
+    marginTop: 15,
+    border: '1px solid #e2e8f0',
   },
   detailTitle: {
-    fontSize: 11,
-    fontWeight: 'bold',
-    color: '#1e293b',
-    marginBottom: 8,
+    fontSize: 12,
+    fontWeight: 700, // Bold
+    color: '#0f172a',
+    marginBottom: 10,
+    letterSpacing: 0.3,
+    borderBottom: '1px solid #cbd5e1',
+    paddingBottom: 6,
   },
   detailRow: {
     flexDirection: 'row',
@@ -181,7 +259,7 @@ const styles = StyleSheet.create({
     color: '#475569',
   },
   detailLabel: {
-    fontWeight: 'bold',
+    fontWeight: 700, // Bold
   },
   footer: {
     position: 'absolute',
@@ -404,7 +482,7 @@ const PDFReport: React.FC<PDFReportProps> = ({ student, bookmarkedResults, score
                     </View>
                     <View style={[styles.detailRow, { marginTop: 8, paddingTop: 8, borderTop: '1px solid #e2e8f0' }]}>
                       <Text style={[styles.detailLabel, { fontSize: 10 }]}>최종 환산 점수:</Text>
-                      <Text style={{ fontSize: 11, fontWeight: 'bold', color: '#1e40af' }}>
+                      <Text style={{ fontSize: 11, fontWeight: 700, color: '#1e40af' }}>
                         {formatScore(detail.total)}
                       </Text>
                     </View>

@@ -102,6 +102,8 @@ function fixDistStructure() {
   const assetsDest = path.join(jsCsPath, 'assets');
   const dataSrc = path.join(distPath, 'data');
   const dataDest = path.join(jsCsPath, 'data');
+  const fontsSrc = path.join(distPath, 'fonts');
+  const fontsDest = path.join(jsCsPath, 'fonts');
   
   if (fs.existsSync(assetsSrc)) {
     // assets 폴더가 이미 있으면 제거
@@ -118,6 +120,14 @@ function fixDistStructure() {
       fs.rmSync(dataDest, { recursive: true, force: true });
     }
     copyRecursiveSync(dataSrc, dataDest);
+  }
+  
+  // fonts 폴더도 복사
+  if (fs.existsSync(fontsSrc)) {
+    if (fs.existsSync(fontsDest)) {
+      fs.rmSync(fontsDest, { recursive: true, force: true });
+    }
+    copyRecursiveSync(fontsSrc, fontsDest);
   }
   
   // index.html을 js_cs 폴더로 복사
