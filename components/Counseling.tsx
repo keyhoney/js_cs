@@ -251,7 +251,8 @@ const Counseling: React.FC<CounselingProps> = ({ students, admissionData, rulesD
       student,
       bookmarkedResults,
       scoreDetails,
-      generatedDate
+      generatedDate,
+      scoreTable
     };
   };
 

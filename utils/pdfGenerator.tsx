@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 // @ts-ignore - @react-pdf/renderer 타입 정의 문제
 import { Document, Page, Text, View, StyleSheet, PDFDownloadLink, Font } from '@react-pdf/renderer';
-import { Student, AnalysisResult, ScoreDetail } from '../types';
+import { Student, AnalysisResult, ScoreDetail, ScoreTableData } from '../types';
 
 // 한글 폰트 등록 - KoPub Batang 사용
 // 폰트 파일은 public/fonts 폴더에 있으며, BASE_URL을 고려하여 로드
@@ -108,6 +108,16 @@ const BRAND = {
   dangerText: '#991B1B',
 };
 
+const ENCOURAGEMENT = [
+    "입시는 단순히 결과만으로 완성되는 과정이 아닙니다.",
+    "그동안 쌓아온 시간과 노력, 그리고 스스로를 돌아보고 방향을 고민해 온 모든 순간들이 함께 어우러져 만들어지는 여정입니다. 한 번의 시험이나 하나의 결과가 한 사람의 가치를 결정하지는 않습니다.",
+    "지금 이 시기에 느끼는 고민과 불안은, 자신을 더 깊이 이해하고 앞으로 나아갈 방향을 차분히 세우고 있다는 증거이기도 합니다. 그 과정 하나하나가 당신을 더욱 단단하게 만들고 있으며, 이미 충분히 의미 있는 걸음을 내딛고 있습니다.",
+    "누군가와 비교하지 않아도 괜찮습니다.",
+    "당신에게는 당신만의 속도와 리듬이 있고, 그 속도대로 걸어가는 길이 가장 올바른 길입니다. 지금까지 성실하게 쌓아온 태도와 시간은 앞으로의 선택을 지탱해 줄 가장 큰 힘이 될 것입니다.",
+    "이 상담 리포트가 결과에 대한 판단을 넘어, 스스로를 믿고 다음 단계를 준비하는 데 작은 기준점이 되기를 바랍니다. 차분하게, 그리고 자신을 믿으며 나아가길 진심으로 응원합니다.",
+    "당신의 길 위에 놓인 모든 선택을 끝까지 지지합니다."
+  ];
+
 const styles = StyleSheet.create({
   page: {
     paddingTop: 42,
@@ -119,6 +129,60 @@ const styles = StyleSheet.create({
     color: BRAND.slate,
     lineHeight: 1.55,
   },
+
+    // ===== Quote (첫 페이지 응원 문구) =====
+    quoteBox: {
+        marginTop: 10,
+        borderWidth: 1,
+        borderColor: BRAND.line,
+        borderRadius: 12,
+        backgroundColor: BRAND.bg,
+        paddingVertical: 12,
+        paddingHorizontal: 14,
+        position: 'relative',
+      },
+      quoteAccent: {
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        bottom: 0,
+        width: 4,
+        backgroundColor: BRAND.navy,
+        borderTopLeftRadius: 12,
+        borderBottomLeftRadius: 12,
+      },
+      quoteHeaderRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'baseline',
+        marginBottom: 8,
+      },
+      quoteTitle: {
+        fontSize: 10,
+        fontWeight: 700,
+        color: BRAND.navy,
+        letterSpacing: 0.2,
+      },
+      quoteTag: {
+        fontSize: 8.5,
+        color: BRAND.muted,
+      },
+      quoteText: {
+        fontSize: 9.5,
+        color: BRAND.slate,
+        lineHeight: 1.65,
+      },
+      quoteParagraph: {
+        marginBottom: 6,
+      },
+      quoteFooter: {
+        marginTop: 6,
+        paddingTop: 8,
+        borderTopWidth: 1,
+        borderTopColor: BRAND.line,
+        fontSize: 8.5,
+        color: BRAND.muted,
+      },
 
   // ===== Header =====
   header: {
@@ -382,9 +446,31 @@ interface PDFReportProps {
   bookmarkedResults: AnalysisResult[];
   scoreDetails: Map<string, ScoreDetail>;
   generatedDate: string;
+  scoreTable: ScoreTableData;
 }
 
-const PDFReport: React.FC<PDFReportProps> = ({ student, bookmarkedResults, scoreDetails, generatedDate }) => {
+const PDFReport: React.FC<PDFReportProps> = ({ student, bookmarkedResults, scoreDetails, generatedDate, scoreTable }) => {
+  // 백분위 계산 헬퍼 함수
+  const getPercentile = (tableName: string, stdScore: number): number => {
+    const table = scoreTable.tables[tableName];
+    if (!table) {
+      // 탐구 과목의 경우 'exp'라는 일반 표를 사용
+      if (tableName !== '국어' && tableName !== '수학' && scoreTable.tables['exp']) {
+        const fallbackEntry = scoreTable.tables['exp'][stdScore];
+        return fallbackEntry ? fallbackEntry.pct : 0;
+      }
+      return 0;
+    }
+    return table[stdScore]?.pct || 0;
+  };
+
+  // 등급 계산 헬퍼 함수
+  const getGrade = (tableName: string, stdScore: number): number => {
+    const table = scoreTable.tables[tableName];
+    if (!table) return 9;
+    return table[stdScore]?.grade || 9;
+  };
+
   const getBadgeStyle = (status: string) => {
     switch (status) {
       case 'safe': return styles.badgeSafe;
@@ -436,10 +522,10 @@ const PDFReport: React.FC<PDFReportProps> = ({ student, bookmarkedResults, score
         <View style={styles.header}>
           <View style={styles.brandBar} />
           <View style={styles.titleRow}>
-            <Text style={styles.title}>2026 정시 입시 상담 리포트</Text>
+            <Text style={styles.title}>2026학년도 대입 정시 상담 리포트</Text>
             <View style={styles.metaRight}>
               <Text style={styles.metaText}>생성일: {generatedDate}</Text>
-              <Text style={styles.metaText}>문서: Jeongsi Counselor 2026</Text>
+              <Text style={styles.metaText}>송현여자고등학교</Text>
             </View>
           </View>
         </View>
@@ -451,30 +537,72 @@ const PDFReport: React.FC<PDFReportProps> = ({ student, bookmarkedResults, score
               ? `${student.classNum}-${student.studentNum} ${student.name}` 
               : student.name}
           </Text>
-          <View style={styles.kvGrid}>
-            <View style={styles.kvItem}>
-              <Text style={styles.kvLabel}>국어</Text>
-              <Text style={styles.kvValue}>{student.scores.kor}점 ({student.subjectOptions?.kor || '미선택'})</Text>
+          {/* 성적 테이블 */}
+          <View style={styles.table}>
+            <View style={styles.tableHeader}>
+              <Text style={[styles.th, { width: '20%' }]}>과목</Text>
+              <Text style={[styles.th, { width: '25%' }]}>선택과목</Text>
+              <Text style={[styles.th, { width: '18%', textAlign: 'right' as const }]}>표준점수</Text>
+              <Text style={[styles.th, { width: '18%', textAlign: 'right' as const }]}>백분위</Text>
+              <Text style={[styles.th, { width: '19%', textAlign: 'right' as const }]}>등급</Text>
             </View>
-            <View style={styles.kvItem}>
-              <Text style={styles.kvLabel}>수학</Text>
-              <Text style={styles.kvValue}>{student.scores.math}점 ({student.subjectOptions?.math || '미선택'})</Text>
+
+            {/* 국어 */}
+            <View style={styles.tr}>
+              <Text style={[styles.tdLabel, { width: '20%' }]}>국어</Text>
+              <Text style={[styles.tdLabel, { width: '25%' }]}>{student.subjectOptions?.kor || '미선택'}</Text>
+              <Text style={[styles.tdValue, { width: '18%' }]}>{student.scores.kor}</Text>
+              <Text style={[styles.tdValue, { width: '18%' }]}>{getPercentile('국어', student.scores.kor).toFixed(2)}</Text>
+              <Text style={[styles.tdValue, { width: '19%' }]}>{getGrade('국어', student.scores.kor)}등급</Text>
             </View>
-            <View style={styles.kvItem}>
-              <Text style={styles.kvLabel}>탐구1</Text>
-              <Text style={styles.kvValue}>{student.scores.exp1}점 ({student.subjectOptions?.exp1 || '미선택'})</Text>
+
+            {/* 수학 */}
+            <View style={styles.tr}>
+              <Text style={[styles.tdLabel, { width: '20%' }]}>수학</Text>
+              <Text style={[styles.tdLabel, { width: '25%' }]}>{student.subjectOptions?.math || '미선택'}</Text>
+              <Text style={[styles.tdValue, { width: '18%' }]}>{student.scores.math}</Text>
+              <Text style={[styles.tdValue, { width: '18%' }]}>{getPercentile('수학', student.scores.math).toFixed(2)}</Text>
+              <Text style={[styles.tdValue, { width: '19%' }]}>{getGrade('수학', student.scores.math)}등급</Text>
             </View>
-            <View style={styles.kvItem}>
-              <Text style={styles.kvLabel}>탐구2</Text>
-              <Text style={styles.kvValue}>{student.scores.exp2}점 ({student.subjectOptions?.exp2 || '미선택'})</Text>
+
+            {/* 탐구1 */}
+            {student.subjectOptions?.exp1 && (
+              <View style={styles.tr}>
+                <Text style={[styles.tdLabel, { width: '20%' }]}>탐구1</Text>
+                <Text style={[styles.tdLabel, { width: '25%' }]}>{student.subjectOptions.exp1}</Text>
+                <Text style={[styles.tdValue, { width: '18%' }]}>{student.scores.exp1}</Text>
+                <Text style={[styles.tdValue, { width: '18%' }]}>{getPercentile(student.subjectOptions.exp1, student.scores.exp1).toFixed(2)}</Text>
+                <Text style={[styles.tdValue, { width: '19%' }]}>{getGrade(student.subjectOptions.exp1, student.scores.exp1)}등급</Text>
+              </View>
+            )}
+
+            {/* 탐구2 */}
+            {student.subjectOptions?.exp2 && (
+              <View style={styles.tr}>
+                <Text style={[styles.tdLabel, { width: '20%' }]}>탐구2</Text>
+                <Text style={[styles.tdLabel, { width: '25%' }]}>{student.subjectOptions.exp2}</Text>
+                <Text style={[styles.tdValue, { width: '18%' }]}>{student.scores.exp2}</Text>
+                <Text style={[styles.tdValue, { width: '18%' }]}>{getPercentile(student.subjectOptions.exp2, student.scores.exp2).toFixed(2)}</Text>
+                <Text style={[styles.tdValue, { width: '19%' }]}>{getGrade(student.subjectOptions.exp2, student.scores.exp2)}등급</Text>
+              </View>
+            )}
+
+            {/* 영어 */}
+            <View style={styles.tr}>
+              <Text style={[styles.tdLabel, { width: '20%' }]}>영어</Text>
+              <Text style={[styles.tdLabel, { width: '25%' }]}>-</Text>
+              <Text style={[styles.tdValue, { width: '18%' }]}>-</Text>
+              <Text style={[styles.tdValue, { width: '18%' }]}>-</Text>
+              <Text style={[styles.tdValue, { width: '19%' }]}>{student.scores.eng}등급</Text>
             </View>
-            <View style={styles.kvItem}>
-              <Text style={styles.kvLabel}>영어</Text>
-              <Text style={styles.kvValue}>{student.scores.eng}등급</Text>
-            </View>
-            <View style={styles.kvItem}>
-              <Text style={styles.kvLabel}>한국사</Text>
-              <Text style={styles.kvValue}>{student.scores.hist}등급</Text>
+
+            {/* 한국사 */}
+            <View style={styles.tr}>
+              <Text style={[styles.tdLabel, { width: '20%' }]}>한국사</Text>
+              <Text style={[styles.tdLabel, { width: '25%' }]}>-</Text>
+              <Text style={[styles.tdValue, { width: '18%' }]}>-</Text>
+              <Text style={[styles.tdValue, { width: '18%' }]}>-</Text>
+              <Text style={[styles.tdValue, { width: '19%' }]}>{student.scores.hist}등급</Text>
             </View>
           </View>
         </View>
@@ -483,6 +611,22 @@ const PDFReport: React.FC<PDFReportProps> = ({ student, bookmarkedResults, score
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>관심 대학 분석</Text>
           <Text style={styles.sectionSubtitle}>총 {bookmarkedResults.length}개 대학/학과</Text>
+
+
+        <View style={styles.quoteBox} wrap={false}>
+        <View style={styles.quoteAccent} />
+
+        <View style={styles.quoteHeaderRow}>
+          <Text style={styles.quoteTitle}>응원의 글</Text>
+          <Text style={styles.quoteTag}>송현여자고등학교 진로진학부</Text>
+        </View>
+
+        {ENCOURAGEMENT.map((p, i) => (
+          <Text key={i} style={[styles.quoteText, i < ENCOURAGEMENT.length - 1 ? styles.quoteParagraph : null]}>
+            {p}
+          </Text>
+        ))}    
+         </View>
           
           {bookmarkedResults.map((result, index) => {
             const detail = scoreDetails.get(`${result.univName}-${result.deptName}`);
@@ -515,7 +659,7 @@ const PDFReport: React.FC<PDFReportProps> = ({ student, bookmarkedResults, score
                     <Text style={styles.tdLabel}>내 환산 점수</Text>
                     <Text style={styles.tdValue}>{formatScore(result.myScore)}</Text>
                     <Text style={[styles.tdDiff, result.gapPercent >= 0 ? styles.diffPos : styles.diffNeg]}>
-                      {result.gapPercent >= 0 ? '+' : ''}{formatPercent(result.gapPercent)}
+                      {result.gapPercent >= 0 ? '' : ''}{formatPercent(result.gapPercent)}
                     </Text>
                   </View>
                 </View>
