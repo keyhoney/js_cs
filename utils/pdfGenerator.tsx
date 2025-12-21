@@ -89,230 +89,291 @@ registerFonts();
 // 폰트 등록 Promise를 export하여 다른 곳에서 await할 수 있도록 함
 export { registerFonts };
 
-// PDF 스타일 정의 (전문적이고 신뢰감 있는 디자인)
+// PDF 스타일 정의 (전문적/신뢰감: react-pdf 호환 스타일)
+const BRAND = {
+  navy: '#0B1F3A',
+  navy2: '#123A63',
+  slate: '#334155',
+  muted: '#64748B',
+  line: '#E2E8F0',
+  bg: '#F8FAFC',
+  card: '#FFFFFF',
+  safeBg: '#EFF6FF',
+  safeText: '#1D4ED8',
+  matchBg: '#F0FDF4',
+  matchText: '#166534',
+  upBg: '#FFFBEB',
+  upText: '#92400E',
+  dangerBg: '#FEF2F2',
+  dangerText: '#991B1B',
+};
+
 const styles = StyleSheet.create({
   page: {
-    padding: 50,
+    paddingTop: 42,
+    paddingBottom: 52,
+    paddingHorizontal: 42,
     fontFamily: 'KoPubBatang',
-    backgroundColor: '#ffffff',
+    backgroundColor: BRAND.card,
     fontSize: 10,
-    color: '#1e293b',
-    lineHeight: 1.5,
+    color: BRAND.slate,
+    lineHeight: 1.55,
   },
+
+  // ===== Header =====
   header: {
-    marginBottom: 35,
-    paddingBottom: 25,
-    borderBottom: '3px solid #0f172a',
-    backgroundColor: '#f8fafc',
-    padding: 20,
-    borderRadius: 8,
-    marginTop: -10,
-    marginLeft: -10,
-    marginRight: -10,
+    marginBottom: 18,
+    paddingBottom: 14,
+    borderBottomWidth: 1,
+    borderBottomColor: BRAND.line,
+  },
+  brandBar: {
+    height: 6,
+    backgroundColor: BRAND.navy,
+    borderRadius: 3,
+    marginBottom: 12,
+  },
+  titleRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
   },
   title: {
-    fontSize: 26,
-    fontWeight: 700, // Bold
-    color: '#0f172a',
-    marginBottom: 10,
-    letterSpacing: 0.5,
+    fontSize: 22,
+    fontWeight: 700,
+    color: BRAND.navy,
+    letterSpacing: 0.2,
   },
-  subtitle: {
-    fontSize: 11,
-    color: '#475569',
-    marginBottom: 4,
-    fontWeight: 'normal',
+  metaRight: {
+    alignItems: 'flex-end',
   },
-  studentInfo: {
-    backgroundColor: '#f1f5f9',
-    padding: 20,
-    borderRadius: 10,
-    marginBottom: 30,
-    border: '2px solid #cbd5e1',
-    borderLeft: '5px solid #0f172a',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+  metaText: {
+    fontSize: 9,
+    color: BRAND.muted,
   },
-  studentName: {
-    fontSize: 20,
-    fontWeight: 700, // Bold
-    color: '#0f172a',
-    marginBottom: 15,
-    letterSpacing: 0.3,
-  },
-  studentScores: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 10,
-  },
-  scoreItem: {
-    fontSize: 10,
-    color: '#475569',
-    marginRight: 15,
-  },
-  scoreLabel: {
-    fontWeight: 700, // Bold
-    color: '#64748b',
-  },
+
+  // ===== Section =====
   section: {
-    marginBottom: 25,
+    marginTop: 14,
+    marginBottom: 14,
   },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: 700, // Bold
-    color: '#0f172a',
-    marginBottom: 20,
-    paddingBottom: 12,
-    borderBottom: '2px solid #0f172a',
-    letterSpacing: 0.5,
+    fontSize: 14,
+    fontWeight: 700,
+    color: BRAND.navy,
+    marginBottom: 10,
+    letterSpacing: 0.2,
   },
-  universityCard: {
-    backgroundColor: '#ffffff',
-    border: '1.5px solid #cbd5e1',
+  sectionSubtitle: {
+    fontSize: 9,
+    color: BRAND.muted,
+    marginTop: -6,
+    marginBottom: 10,
+  },
+
+  // ===== Card (generic) =====
+  card: {
+    backgroundColor: BRAND.card,
+    borderWidth: 1,
+    borderColor: BRAND.line,
     borderRadius: 10,
-    padding: 20,
-    marginBottom: 20,
-    borderLeft: '5px solid #0f172a',
-    boxShadow: '0 2px 6px rgba(0,0,0,0.08)',
+    padding: 14,
   },
-  universityHeader: {
+
+  // ===== Student Card =====
+  studentCard: {
+    backgroundColor: BRAND.bg,
+    borderWidth: 1,
+    borderColor: BRAND.line,
+    borderRadius: 12,
+    padding: 14,
+    marginTop: 10,
+    marginBottom: 14,
+  },
+  studentName: {
+    fontSize: 16,
+    fontWeight: 700,
+    color: BRAND.navy,
+    marginBottom: 10,
+  },
+  kvGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  kvItem: {
+    width: '50%',
+    paddingRight: 10,
+    marginBottom: 6,
+    flexDirection: 'row',
+  },
+  kvLabel: {
+    width: 48,
+    fontSize: 9,
+    color: BRAND.muted,
+    fontWeight: 700,
+  },
+  kvValue: {
+    fontSize: 10,
+    color: BRAND.slate,
+  },
+
+  // ===== University Card =====
+  univCard: {
+    backgroundColor: BRAND.card,
+    borderWidth: 1,
+    borderColor: BRAND.line,
+    borderRadius: 12,
+    padding: 14,
+    marginBottom: 12,
+  },
+  univTopRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    marginBottom: 12,
+    marginBottom: 10,
   },
-  universityName: {
-    fontSize: 16,
-    fontWeight: 700, // Bold
-    color: '#0f172a',
-    marginBottom: 6,
-    letterSpacing: 0.2,
+  univName: {
+    fontSize: 13,
+    fontWeight: 700,
+    color: BRAND.navy,
+    marginBottom: 3,
   },
   deptName: {
-    fontSize: 12,
-    color: '#475569',
-    marginBottom: 10,
-    fontWeight: 'normal',
+    fontSize: 10,
+    color: BRAND.slate,
+    marginBottom: 2,
   },
-  statusBadge: {
-    padding: '6px 14px',
-    borderRadius: 6,
-    fontSize: 11,
-    fontWeight: 700, // Bold
-    border: '1.5px solid',
+  formula: {
+    fontSize: 8.5,
+    color: BRAND.muted,
+    marginTop: 3,
   },
-  statusSafe: {
-    backgroundColor: '#eff6ff',
-    color: '#1e40af',
-    borderColor: '#3b82f6',
+
+  // Badge: View + Text를 분리해서 안정적으로
+  badge: {
+    borderWidth: 1,
+    borderRadius: 999,
+    paddingVertical: 4,
+    paddingHorizontal: 10,
   },
-  statusMatch: {
-    backgroundColor: '#f0fdf4',
-    color: '#166534',
-    borderColor: '#22c55e',
+  badgeText: {
+    fontSize: 9,
+    fontWeight: 700,
   },
-  statusUpward: {
-    backgroundColor: '#fffbeb',
-    color: '#92400e',
-    borderColor: '#f59e0b',
+  badgeSafe: { backgroundColor: BRAND.safeBg, borderColor: '#BFDBFE' },
+  badgeSafeText: { color: BRAND.safeText },
+  badgeMatch: { backgroundColor: BRAND.matchBg, borderColor: '#BBF7D0' },
+  badgeMatchText: { color: BRAND.matchText },
+  badgeUp: { backgroundColor: BRAND.upBg, borderColor: '#FDE68A' },
+  badgeUpText: { color: BRAND.upText },
+  badgeDanger: { backgroundColor: BRAND.dangerBg, borderColor: '#FECACA' },
+  badgeDangerText: { color: BRAND.dangerText },
+
+  // ===== Score Table =====
+  table: {
+    marginTop: 8,
+    borderWidth: 1,
+    borderColor: BRAND.line,
+    borderRadius: 10,
+    overflow: 'hidden',
   },
-  statusDanger: {
-    backgroundColor: '#fef2f2',
-    color: '#991b1b',
-    borderColor: '#ef4444',
-  },
-  scoreSection: {
+  tableHeader: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 10,
-    paddingBottom: 10,
-    borderBottom: '1px solid #f1f5f9',
+    backgroundColor: BRAND.bg,
+    borderBottomWidth: 1,
+    borderBottomColor: BRAND.line,
+    paddingVertical: 7,
+    paddingHorizontal: 10,
   },
-  scoreSectionLabel: {
-    fontSize: 10,
-    color: '#64748b',
-    width: '40%',
+  th: { fontSize: 9, color: BRAND.muted, fontWeight: 700 },
+  colLabel: { width: '45%' },
+  colValue: { width: '30%', textAlign: 'right' as const },
+  colDiff: { width: '25%', textAlign: 'right' as const },
+
+  tr: {
+    flexDirection: 'row',
+    paddingVertical: 7,
+    paddingHorizontal: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: BRAND.line,
   },
-  scoreValue: {
-    fontSize: 11,
-    fontWeight: 700, // Bold
-    color: '#1e293b',
-    width: '30%',
-    textAlign: 'right',
-  },
-  scoreDiff: {
-    fontSize: 10,
-    width: '30%',
-    textAlign: 'right',
-  },
-  scorePositive: {
-    color: '#059669',
-  },
-  scoreNegative: {
-    color: '#dc2626',
-  },
+  tdLabel: { width: '45%', fontSize: 9.5, color: BRAND.muted },
+  tdValue: { width: '30%', fontSize: 10.5, fontWeight: 700, color: BRAND.slate, textAlign: 'right' as const },
+  tdDiff: { width: '25%', fontSize: 9.5, textAlign: 'right' as const },
+  diffPos: { color: '#0F766E' },
+  diffNeg: { color: '#B91C1C' },
+
+  // ===== Cutoffs =====
   cutoffs: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginTop: 12,
-    paddingTop: 12,
-    borderTop: '1px solid #e2e8f0',
+    justifyContent: 'space-between',
+    marginTop: 10,
   },
-  cutoffItem: {
-    alignItems: 'center',
-    flex: 1,
+  cutoffBox: {
+    width: '32%',
+    borderWidth: 1,
+    borderColor: BRAND.line,
+    borderRadius: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    backgroundColor: BRAND.bg,
   },
-  cutoffLabel: {
-    fontSize: 9,
-    color: '#64748b',
-    marginBottom: 4,
-  },
-  cutoffValue: {
-    fontSize: 12,
-    fontWeight: 700, // Bold
-  },
-  detailSection: {
-    backgroundColor: '#f8fafc',
-    padding: 15,
-    borderRadius: 8,
-    marginTop: 15,
-    border: '1px solid #e2e8f0',
+  cutoffLabel: { fontSize: 8.5, color: BRAND.muted, marginBottom: 4, fontWeight: 700 },
+  cutoffValue: { fontSize: 11, fontWeight: 700 },
+
+  // ===== Detail Blocks =====
+  detailBlock: {
+    marginTop: 10,
+    borderWidth: 1,
+    borderColor: BRAND.line,
+    borderRadius: 10,
+    padding: 10,
+    backgroundColor: '#FFFFFF',
   },
   detailTitle: {
-    fontSize: 12,
-    fontWeight: 700, // Bold
-    color: '#0f172a',
-    marginBottom: 10,
-    letterSpacing: 0.3,
-    borderBottom: '1px solid #cbd5e1',
-    paddingBottom: 6,
+    fontSize: 10.5,
+    fontWeight: 700,
+    color: BRAND.navy,
+    marginBottom: 8,
   },
   detailRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 6,
-    fontSize: 9,
-    color: '#475569',
+    marginBottom: 5,
   },
-  detailLabel: {
-    fontWeight: 700, // Bold
+  detailLabel: { fontSize: 9, color: BRAND.muted, fontWeight: 700 },
+  detailValue: { fontSize: 9.5, color: BRAND.slate },
+
+  totalRow: {
+    marginTop: 8,
+    paddingTop: 8,
+    borderTopWidth: 1,
+    borderTopColor: BRAND.line,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
+  totalLabel: { fontSize: 10, fontWeight: 700, color: BRAND.navy },
+  totalValue: { fontSize: 11, fontWeight: 700, color: BRAND.navy2 },
+
+  // ===== Footer =====
   footer: {
     position: 'absolute',
-    bottom: 30,
-    left: 40,
-    right: 40,
+    bottom: 22,
+    left: 42,
+    right: 42,
+    borderTopWidth: 1,
+    borderTopColor: BRAND.line,
+    paddingTop: 8,
+    fontSize: 8.5,
+    color: BRAND.muted,
     textAlign: 'center',
-    fontSize: 9,
-    color: '#94a3b8',
-    borderTop: '1px solid #e2e8f0',
-    paddingTop: 10,
   },
   pageNumber: {
     position: 'absolute',
-    bottom: 30,
-    right: 40,
-    fontSize: 9,
-    color: '#94a3b8',
+    bottom: 22,
+    right: 42,
+    fontSize: 8.5,
+    color: BRAND.muted,
   },
 });
 
@@ -324,18 +385,23 @@ interface PDFReportProps {
 }
 
 const PDFReport: React.FC<PDFReportProps> = ({ student, bookmarkedResults, scoreDetails, generatedDate }) => {
-  const getStatusStyle = (status: string) => {
+  const getBadgeStyle = (status: string) => {
     switch (status) {
-      case 'safe':
-        return [styles.statusBadge, styles.statusSafe];
-      case 'match':
-        return [styles.statusBadge, styles.statusMatch];
-      case 'upward':
-        return [styles.statusBadge, styles.statusUpward];
-      case 'danger':
-        return [styles.statusBadge, styles.statusDanger];
-      default:
-        return [styles.statusBadge, styles.statusDanger];
+      case 'safe': return styles.badgeSafe;
+      case 'match': return styles.badgeMatch;
+      case 'upward': return styles.badgeUp;
+      case 'danger': return styles.badgeDanger;
+      default: return styles.badgeDanger;
+    }
+  };
+
+  const getBadgeTextStyle = (status: string) => {
+    switch (status) {
+      case 'safe': return styles.badgeSafeText;
+      case 'match': return styles.badgeMatchText;
+      case 'upward': return styles.badgeUpText;
+      case 'danger': return styles.badgeDangerText;
+      default: return styles.badgeDangerText;
     }
   };
 
@@ -368,158 +434,165 @@ const PDFReport: React.FC<PDFReportProps> = ({ student, bookmarkedResults, score
       <Page size="A4" style={styles.page}>
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.title}>2026 정시 입시 상담 리포트</Text>
-          <Text style={styles.subtitle}>생성일: {generatedDate}</Text>
+          <View style={styles.brandBar} />
+          <View style={styles.titleRow}>
+            <Text style={styles.title}>2026 정시 입시 상담 리포트</Text>
+            <View style={styles.metaRight}>
+              <Text style={styles.metaText}>생성일: {generatedDate}</Text>
+              <Text style={styles.metaText}>문서: Jeongsi Counselor 2026</Text>
+            </View>
+          </View>
         </View>
 
         {/* Student Info */}
-        <View style={styles.studentInfo}>
+        <View style={styles.studentCard}>
           <Text style={styles.studentName}>
             {student.classNum && student.studentNum 
               ? `${student.classNum}-${student.studentNum} ${student.name}` 
               : student.name}
           </Text>
-          <View style={styles.studentScores}>
-            <Text style={styles.scoreItem}>
-              <Text style={styles.scoreLabel}>국어: </Text>
-              {student.scores.kor}점 ({student.subjectOptions?.kor || '미선택'})
-            </Text>
-            <Text style={styles.scoreItem}>
-              <Text style={styles.scoreLabel}>수학: </Text>
-              {student.scores.math}점 ({student.subjectOptions?.math || '미선택'})
-            </Text>
-            <Text style={styles.scoreItem}>
-              <Text style={styles.scoreLabel}>탐구1: </Text>
-              {student.scores.exp1}점 ({student.subjectOptions?.exp1 || '미선택'})
-            </Text>
-            <Text style={styles.scoreItem}>
-              <Text style={styles.scoreLabel}>탐구2: </Text>
-              {student.scores.exp2}점 ({student.subjectOptions?.exp2 || '미선택'})
-            </Text>
-            <Text style={styles.scoreItem}>
-              <Text style={styles.scoreLabel}>영어: </Text>
-              {student.scores.eng}등급
-            </Text>
-            <Text style={styles.scoreItem}>
-              <Text style={styles.scoreLabel}>한국사: </Text>
-              {student.scores.hist}등급
-            </Text>
+          <View style={styles.kvGrid}>
+            <View style={styles.kvItem}>
+              <Text style={styles.kvLabel}>국어</Text>
+              <Text style={styles.kvValue}>{student.scores.kor}점 ({student.subjectOptions?.kor || '미선택'})</Text>
+            </View>
+            <View style={styles.kvItem}>
+              <Text style={styles.kvLabel}>수학</Text>
+              <Text style={styles.kvValue}>{student.scores.math}점 ({student.subjectOptions?.math || '미선택'})</Text>
+            </View>
+            <View style={styles.kvItem}>
+              <Text style={styles.kvLabel}>탐구1</Text>
+              <Text style={styles.kvValue}>{student.scores.exp1}점 ({student.subjectOptions?.exp1 || '미선택'})</Text>
+            </View>
+            <View style={styles.kvItem}>
+              <Text style={styles.kvLabel}>탐구2</Text>
+              <Text style={styles.kvValue}>{student.scores.exp2}점 ({student.subjectOptions?.exp2 || '미선택'})</Text>
+            </View>
+            <View style={styles.kvItem}>
+              <Text style={styles.kvLabel}>영어</Text>
+              <Text style={styles.kvValue}>{student.scores.eng}등급</Text>
+            </View>
+            <View style={styles.kvItem}>
+              <Text style={styles.kvLabel}>한국사</Text>
+              <Text style={styles.kvValue}>{student.scores.hist}등급</Text>
+            </View>
           </View>
         </View>
 
         {/* Bookmarked Universities */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>관심 대학 분석 ({bookmarkedResults.length}개)</Text>
+          <Text style={styles.sectionTitle}>관심 대학 분석</Text>
+          <Text style={styles.sectionSubtitle}>총 {bookmarkedResults.length}개 대학/학과</Text>
           
           {bookmarkedResults.map((result, index) => {
             const detail = scoreDetails.get(`${result.univName}-${result.deptName}`);
-            const diffColor = result.gapPercent >= 0 ? styles.scorePositive : styles.scoreNegative;
-            const diffSign = result.gapPercent >= 0 ? '+' : '';
 
             return (
-              <View key={index} style={styles.universityCard} wrap={false}>
-                <View style={styles.universityHeader}>
-                  <View style={{ flex: 1 }}>
-                    <Text style={styles.universityName}>{result.univName}</Text>
+              <View key={index} style={styles.univCard} wrap={false}>
+                <View style={styles.univTopRow}>
+                  <View style={{ flex: 1, paddingRight: 10 }}>
+                    <Text style={styles.univName}>{result.univName}</Text>
                     <Text style={styles.deptName}>{result.deptName}</Text>
-                    <Text style={{ fontSize: 9, color: '#94a3b8', marginTop: 4 }}>
-                      적용 공식: {result.formulaLabel}
-                    </Text>
+                    <Text style={styles.formula}>적용 공식: {result.formulaLabel}</Text>
                   </View>
-                  <View style={getStatusStyle(result.status)}>
-                    <Text>{getStatusLabel(result.status)}</Text>
+
+                  <View style={[styles.badge, getBadgeStyle(result.status)]}>
+                    <Text style={[styles.badgeText, getBadgeTextStyle(result.status)]}>
+                      {getStatusLabel(result.status)}
+                    </Text>
                   </View>
                 </View>
 
-                {/* Score Comparison */}
-                <View style={styles.scoreSection}>
-                  <Text style={styles.scoreSectionLabel}>내 환산 점수</Text>
-                  <Text style={styles.scoreValue}>{formatScore(result.myScore)}</Text>
-                  <Text style={[styles.scoreDiff, diffColor]}>
-                    {diffSign}{formatPercent(result.gapPercent)}
-                  </Text>
+                {/* Score Comparison Table */}
+                <View style={styles.table}>
+                  <View style={styles.tableHeader}>
+                    <Text style={[styles.th, styles.colLabel]}>지표</Text>
+                    <Text style={[styles.th, styles.colValue]}>점수</Text>
+                    <Text style={[styles.th, styles.colDiff]}>격차(%)</Text>
+                  </View>
+
+                  <View style={styles.tr}>
+                    <Text style={styles.tdLabel}>내 환산 점수</Text>
+                    <Text style={styles.tdValue}>{formatScore(result.myScore)}</Text>
+                    <Text style={[styles.tdDiff, result.gapPercent >= 0 ? styles.diffPos : styles.diffNeg]}>
+                      {result.gapPercent >= 0 ? '+' : ''}{formatPercent(result.gapPercent)}
+                    </Text>
+                  </View>
                 </View>
 
                 {/* Cutoffs */}
                 <View style={styles.cutoffs}>
-                  <View style={styles.cutoffItem}>
+                  <View style={styles.cutoffBox}>
                     <Text style={styles.cutoffLabel}>안정 기준</Text>
-                    <Text style={[styles.cutoffValue, { color: '#1e40af' }]}>
-                      {formatScore(result.safeCut)}
-                    </Text>
+                    <Text style={[styles.cutoffValue, { color: BRAND.safeText }]}>{formatScore(result.safeCut)}</Text>
                   </View>
-                  <View style={styles.cutoffItem}>
+                  <View style={styles.cutoffBox}>
                     <Text style={styles.cutoffLabel}>소신 기준</Text>
-                    <Text style={[styles.cutoffValue, { color: '#166534' }]}>
-                      {formatScore(result.matchCut)}
-                    </Text>
+                    <Text style={[styles.cutoffValue, { color: BRAND.matchText }]}>{formatScore(result.matchCut)}</Text>
                   </View>
-                  <View style={styles.cutoffItem}>
+                  <View style={styles.cutoffBox}>
                     <Text style={styles.cutoffLabel}>상향 기준</Text>
-                    <Text style={[styles.cutoffValue, { color: '#92400e' }]}>
-                      {formatScore(result.upwardCut)}
-                    </Text>
+                    <Text style={[styles.cutoffValue, { color: BRAND.upText }]}>{formatScore(result.upwardCut)}</Text>
                   </View>
                 </View>
 
                 {/* Recruitment Info */}
-                <View style={styles.detailSection}>
+                <View style={styles.detailBlock}>
                   <Text style={styles.detailTitle}>모집 정보</Text>
                   <View style={styles.detailRow}>
-                    <Text style={styles.detailLabel}>최종 모집 인원:</Text>
-                    <Text>{result.finalRecruitmentCount}명</Text>
+                    <Text style={styles.detailLabel}>최종 모집 인원</Text>
+                    <Text style={styles.detailValue}>{result.finalRecruitmentCount}명</Text>
                   </View>
                   <View style={styles.detailRow}>
-                    <Text style={styles.detailLabel}>최초 모집 인원:</Text>
-                    <Text>{result.initialRecruitmentCount}명</Text>
+                    <Text style={styles.detailLabel}>최초 모집 인원</Text>
+                    <Text style={styles.detailValue}>{result.initialRecruitmentCount}명</Text>
                   </View>
                   {result.earlyAdmissionCarryover > 0 && (
                     <View style={styles.detailRow}>
-                      <Text style={styles.detailLabel}>수시 이월:</Text>
-                      <Text>{result.earlyAdmissionCarryover}명</Text>
+                      <Text style={styles.detailLabel}>수시 이월</Text>
+                      <Text style={styles.detailValue}>{result.earlyAdmissionCarryover}명</Text>
                     </View>
                   )}
                   {result.lastYearCompetitionRate > 0 && (
                     <View style={styles.detailRow}>
-                      <Text style={styles.detailLabel}>전년도 경쟁률:</Text>
-                      <Text>{result.lastYearCompetitionRate.toFixed(2)}:1</Text>
+                      <Text style={styles.detailLabel}>전년도 경쟁률</Text>
+                      <Text style={styles.detailValue}>{result.lastYearCompetitionRate.toFixed(2)}:1</Text>
                     </View>
                   )}
                   <View style={styles.detailRow}>
-                    <Text style={styles.detailLabel}>군:</Text>
-                    <Text>{result.group}</Text>
+                    <Text style={styles.detailLabel}>군</Text>
+                    <Text style={styles.detailValue}>{result.group}</Text>
                   </View>
                 </View>
 
                 {/* Score Detail */}
                 {detail && (
-                  <View style={styles.detailSection}>
+                  <View style={styles.detailBlock}>
                     <Text style={styles.detailTitle}>점수 상세 내역</Text>
                     <View style={styles.detailRow}>
-                      <Text style={styles.detailLabel}>국어:</Text>
-                      <Text>{formatScore(detail.kor.raw)} × {detail.kor.weight} = {formatScore(detail.kor.calc)}</Text>
+                      <Text style={styles.detailLabel}>국어</Text>
+                      <Text style={styles.detailValue}>{formatScore(detail.kor.raw)} × {detail.kor.weight} = {formatScore(detail.kor.calc)}</Text>
                     </View>
                     <View style={styles.detailRow}>
-                      <Text style={styles.detailLabel}>수학:</Text>
-                      <Text>{formatScore(detail.math.raw)} × {detail.math.weight} = {formatScore(detail.math.calc)}</Text>
+                      <Text style={styles.detailLabel}>수학</Text>
+                      <Text style={styles.detailValue}>{formatScore(detail.math.raw)} × {detail.math.weight} = {formatScore(detail.math.calc)}</Text>
                     </View>
                     <View style={styles.detailRow}>
-                      <Text style={styles.detailLabel}>탐구:</Text>
-                      <Text>{formatScore(detail.exp.raw)} × {detail.exp.weight} = {formatScore(detail.exp.calc)}</Text>
+                      <Text style={styles.detailLabel}>탐구</Text>
+                      <Text style={styles.detailValue}>{formatScore(detail.exp.raw)} × {detail.exp.weight} = {formatScore(detail.exp.calc)}</Text>
                     </View>
                     <View style={styles.detailRow}>
-                      <Text style={styles.detailLabel}>영어:</Text>
-                      <Text>{detail.eng.grade}등급 = {formatScore(detail.eng.score)}</Text>
+                      <Text style={styles.detailLabel}>영어</Text>
+                      <Text style={styles.detailValue}>{detail.eng.grade}등급 = {formatScore(detail.eng.score)}</Text>
                     </View>
                     <View style={styles.detailRow}>
-                      <Text style={styles.detailLabel}>한국사:</Text>
-                      <Text>{detail.hist.grade}등급 = {formatScore(detail.hist.score)}</Text>
+                      <Text style={styles.detailLabel}>한국사</Text>
+                      <Text style={styles.detailValue}>{detail.hist.grade}등급 = {formatScore(detail.hist.score)}</Text>
                     </View>
-                    <View style={[styles.detailRow, { marginTop: 8, paddingTop: 8, borderTop: '1px solid #e2e8f0' }]}>
-                      <Text style={[styles.detailLabel, { fontSize: 10 }]}>최종 환산 점수:</Text>
-                      <Text style={{ fontSize: 11, fontWeight: 700, color: '#1e40af' }}>
-                        {formatScore(detail.total)}
-                      </Text>
+
+                    <View style={styles.totalRow}>
+                      <Text style={styles.totalLabel}>최종 환산 점수</Text>
+                      <Text style={styles.totalValue}>{formatScore(detail.total)}</Text>
                     </View>
                   </View>
                 )}
@@ -530,7 +603,7 @@ const PDFReport: React.FC<PDFReportProps> = ({ student, bookmarkedResults, score
 
         {/* Footer */}
         <Text style={styles.footer}>
-          Jeongsi Counselor 2026 - 정시 입시 상담 시스템
+          Jeongsi Counselor 2026 · 본 리포트는 입력된 성적 및 기준 데이터에 기반한 참고 자료입니다.
         </Text>
         <Text 
           style={styles.pageNumber} 
