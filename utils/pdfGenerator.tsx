@@ -5,54 +5,89 @@ import { Student, AnalysisResult, ScoreDetail } from '../types';
 
 // 한글 폰트 등록 - KoPub Batang 사용
 // 폰트 파일은 public/fonts 폴더에 있으며, BASE_URL을 고려하여 로드
-const registerFonts = async () => {
-  try {
-    // BASE_URL을 사용하여 경로 설정 (빌드 환경에 따라 '/js_cs/' 또는 '/' 일 수 있음)
-    const baseUrl = import.meta.env.BASE_URL || '/';
-    const fontPaths = {
-      light: `${baseUrl}fonts/KoPub Batang Light.ttf`,
-      medium: `${baseUrl}fonts/KoPub Batang Medium.ttf`,
-      bold: `${baseUrl}fonts/KoPub Batang Bold.ttf`,
-    };
+let fontRegistrationPromise: Promise<void> | null = null;
+let fontsRegistered = false;
 
-    // 각 폰트를 fetch로 로드하여 등록
-    // @ts-ignore - @react-pdf/renderer 타입 정의 문제 (ArrayBuffer 타입)
-    const [lightData, mediumData, boldData] = await Promise.all([
-      fetch(fontPaths.light).then(res => res.arrayBuffer()),
-      fetch(fontPaths.medium).then(res => res.arrayBuffer()),
-      fetch(fontPaths.bold).then(res => res.arrayBuffer()),
-    ]);
+const registerFonts = async (): Promise<void> => {
+  if (fontsRegistered) return;
+  if (fontRegistrationPromise) return fontRegistrationPromise;
 
-    // Font.register를 사용하여 폰트 등록
-    // @ts-ignore - @react-pdf/renderer 타입 정의 문제 (ArrayBuffer를 src로 받을 수 있음)
-    Font.register({
-      family: 'KoPubBatang',
-      fonts: [
-        {
-          // @ts-ignore
-          src: lightData,
-          fontWeight: 300,
-        },
-        {
-          // @ts-ignore
-          src: mediumData,
-          fontWeight: 500,
-        },
-        {
-          // @ts-ignore
-          src: boldData,
-          fontWeight: 700,
-        },
-      ],
-    });
-  } catch (error) {
-    console.error('Font registration failed:', error);
-    // 폰트 등록 실패 시 기본 폰트 사용
-  }
+  fontRegistrationPromise = (async () => {
+    try {
+      // BASE_URL을 사용하여 경로 설정 (빌드 환경에 따라 '/js_cs/' 또는 '/' 일 수 있음)
+      const baseUrl = import.meta.env.BASE_URL || '/';
+      const fontPaths = {
+        light: `${baseUrl}fonts/KoPub Batang Light.ttf`,
+        medium: `${baseUrl}fonts/KoPub Batang Medium.ttf`,
+        bold: `${baseUrl}fonts/KoPub Batang Bold.ttf`,
+      };
+
+      // 각 폰트를 fetch로 로드하여 base64로 변환
+      const [lightData, mediumData, boldData] = await Promise.all([
+        fetch(fontPaths.light).then(res => {
+          if (!res.ok) throw new Error(`Failed to load font: ${fontPaths.light}`);
+          return res.arrayBuffer();
+        }),
+        fetch(fontPaths.medium).then(res => {
+          if (!res.ok) throw new Error(`Failed to load font: ${fontPaths.medium}`);
+          return res.arrayBuffer();
+        }),
+        fetch(fontPaths.bold).then(res => {
+          if (!res.ok) throw new Error(`Failed to load font: ${fontPaths.bold}`);
+          return res.arrayBuffer();
+        }),
+      ]);
+
+      // ArrayBuffer를 base64 문자열로 변환하는 헬퍼 함수
+      const arrayBufferToBase64 = (buffer: ArrayBuffer): string => {
+        const bytes = new Uint8Array(buffer);
+        let binary = '';
+        // 큰 파일을 위한 청크 처리 (Maximum call stack size 초과 방지)
+        const chunkSize = 8192;
+        for (let i = 0; i < bytes.byteLength; i += chunkSize) {
+          const chunk = bytes.subarray(i, Math.min(i + chunkSize, bytes.byteLength));
+          binary += String.fromCharCode.apply(null, Array.from(chunk) as any);
+        }
+        return btoa(binary);
+      };
+
+      // Font.register는 src로 base64 data URI 문자열을 받습니다
+      Font.register({
+        family: 'KoPubBatang',
+        fonts: [
+          {
+            src: `data:font/truetype;charset=utf-8;base64,${arrayBufferToBase64(lightData)}`,
+            fontWeight: 300,
+          },
+          {
+            src: `data:font/truetype;charset=utf-8;base64,${arrayBufferToBase64(mediumData)}`,
+            fontWeight: 500,
+          },
+          {
+            src: `data:font/truetype;charset=utf-8;base64,${arrayBufferToBase64(boldData)}`,
+            fontWeight: 700,
+          },
+        ],
+      });
+      
+      fontsRegistered = true;
+      console.log('KoPub Batang fonts registered successfully');
+    } catch (error) {
+      console.error('Font registration failed:', error);
+      fontsRegistered = false;
+      fontRegistrationPromise = null;
+      // 폰트 등록 실패 시 기본 폰트 사용
+    }
+  })();
+
+  return fontRegistrationPromise;
 };
 
-// 컴포넌트 마운트 시 폰트 등록
+// 앱 시작 시 폰트 등록 시작
 registerFonts();
+
+// 폰트 등록 Promise를 export하여 다른 곳에서 await할 수 있도록 함
+export { registerFonts };
 
 // PDF 스타일 정의 (전문적이고 신뢰감 있는 디자인)
 const styles = StyleSheet.create({

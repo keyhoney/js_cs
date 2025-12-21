@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Student, ExcelRow, RulesData, AnalysisResult, ScoreDetail, ScoreTableData, ConversionTableData, UnivRule } from '../types';
 import { analyzeAdmission, calculateUnivScore } from '../services/calcService';
 import { Search, AlertCircle, CheckCircle, ArrowRight, Star, Info, X, SlidersHorizontal, ArrowUpDown, TrendingUp, FileText } from 'lucide-react';
-import PDFReport from '../utils/pdfGenerator';
+import PDFReport, { registerFonts } from '../utils/pdfGenerator';
 // @ts-ignore - @react-pdf/renderer 타입 정의 문제
 import { PDFDownloadLink } from '@react-pdf/renderer';
 
@@ -19,6 +19,11 @@ interface CounselingProps {
 const STORAGE_KEY_BOOKMARKS_PREFIX = 'jeongsi_bookmarks_v1';
 
 const Counseling: React.FC<CounselingProps> = ({ students, admissionData, rulesData, scoreTable, conversionTable, initialStudent }) => {
+  // 폰트 등록이 완료되도록 보장
+  useEffect(() => {
+    registerFonts().catch(err => console.error('Font registration error:', err));
+  }, []);
+
   const [selectedStudentId, setSelectedStudentId] = useState<string>(initialStudent?.id || '');
   
   // Filters & Sort State
