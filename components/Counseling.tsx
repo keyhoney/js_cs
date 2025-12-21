@@ -2,7 +2,10 @@
 import React, { useState, useEffect } from 'react';
 import { Student, ExcelRow, RulesData, AnalysisResult, ScoreDetail, ScoreTableData, ConversionTableData, UnivRule } from '../types';
 import { analyzeAdmission, calculateUnivScore } from '../services/calcService';
-import { Search, AlertCircle, CheckCircle, ArrowRight, Star, Info, X, SlidersHorizontal, ArrowUpDown, TrendingUp } from 'lucide-react';
+import { Search, AlertCircle, CheckCircle, ArrowRight, Star, Info, X, SlidersHorizontal, ArrowUpDown, TrendingUp, FileText } from 'lucide-react';
+import PDFReport from '../utils/pdfGenerator';
+// @ts-ignore - @react-pdf/renderer 타입 정의 문제
+import { PDFDownloadLink } from '@react-pdf/renderer';
 
 interface CounselingProps {
   students: Student[];
@@ -13,7 +16,7 @@ interface CounselingProps {
   initialStudent?: Student | null;
 }
 
-const STORAGE_KEY_BOOKMARKS = 'jeongsi_bookmarks_v1';
+const STORAGE_KEY_BOOKMARKS_PREFIX = 'jeongsi_bookmarks_v1';
 
 const Counseling: React.FC<CounselingProps> = ({ students, admissionData, rulesData, scoreTable, conversionTable, initialStudent }) => {
   const [selectedStudentId, setSelectedStudentId] = useState<string>(initialStudent?.id || '');
@@ -34,15 +37,29 @@ const Counseling: React.FC<CounselingProps> = ({ students, admissionData, rulesD
   const [detailModalOpen, setDetailModalOpen] = useState(false);
   const [detailData, setDetailData] = useState<{ result: AnalysisResult, detail: ScoreDetail } | null>(null);
 
-  // Load Bookmarks on Mount
+  // 북마크 키 생성 함수 (학생 ID 포함)
+  const getBookmarkStorageKey = (studentId: string) => `${STORAGE_KEY_BOOKMARKS_PREFIX}_${studentId}`;
+
+  // Load Bookmarks when student changes
   useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY_BOOKMARKS);
+    if (!selectedStudentId) {
+      setBookmarks(new Set());
+      return;
+    }
+    
+    const storageKey = getBookmarkStorageKey(selectedStudentId);
+    const stored = localStorage.getItem(storageKey);
     if (stored) {
       try {
         setBookmarks(new Set(JSON.parse(stored)));
-      } catch(e) { console.error(e); }
+      } catch(e) { 
+        console.error('Failed to load bookmarks:', e);
+        setBookmarks(new Set());
+      }
+    } else {
+      setBookmarks(new Set());
     }
-  }, []);
+  }, [selectedStudentId]);
 
   // Update selected student if initialStudent prop changes
   useEffect(() => {
@@ -108,6 +125,8 @@ const Counseling: React.FC<CounselingProps> = ({ students, admissionData, rulesD
   }, [selectedStudentId, univSearchTerm, deptSearchTerm, groupFilter, statusFilter, sortOption, showBookmarksOnly, bookmarks, students, admissionData, rulesData, scoreTable, conversionTable]);
 
   const toggleBookmark = (univName: string, deptName: string) => {
+    if (!selectedStudentId) return;
+    
     const key = `${univName}-${deptName}`;
     const newBookmarks = new Set(bookmarks);
     if (newBookmarks.has(key)) {
@@ -116,7 +135,9 @@ const Counseling: React.FC<CounselingProps> = ({ students, admissionData, rulesD
       newBookmarks.add(key);
     }
     setBookmarks(newBookmarks);
-    localStorage.setItem(STORAGE_KEY_BOOKMARKS, JSON.stringify(Array.from(newBookmarks)));
+    
+    const storageKey = getBookmarkStorageKey(selectedStudentId);
+    localStorage.setItem(storageKey, JSON.stringify(Array.from(newBookmarks)));
   };
 
   const findRule = (univName: string): UnivRule | null => {
@@ -180,6 +201,53 @@ const Counseling: React.FC<CounselingProps> = ({ students, admissionData, rulesD
     if (!scoreTable || !scoreTable.tables[tableKey]) return { pct: '-', grade: '-' };
     const meta = scoreTable.tables[tableKey][score];
     return meta ? { pct: meta.pct, grade: meta.grade } : { pct: '-', grade: '-' };
+  };
+
+  // PDF 생성 함수
+  const generatePDFData = () => {
+    const student = students.find(s => s.id === selectedStudentId);
+    if (!student || !rulesData || !scoreTable) {
+      return null;
+    }
+
+    // 관심 대학만 필터링
+    const bookmarkedResults = results.filter(r => {
+      const key = `${r.univName}-${r.deptName}`;
+      return bookmarks.has(key);
+    });
+
+    if (bookmarkedResults.length === 0) {
+      return null;
+    }
+
+    // 각 관심 대학의 상세 점수 계산
+    const scoreDetails = new Map<string, ScoreDetail>();
+    bookmarkedResults.forEach(result => {
+      const rule = findRule(result.univName);
+      if (rule) {
+        try {
+          const detail = calculateUnivScore(student, rule, scoreTable, conversionTable, result.scoringClass);
+          scoreDetails.set(`${result.univName}-${result.deptName}`, detail);
+        } catch (e) {
+          console.error(`Failed to calculate score for ${result.univName} ${result.deptName}:`, e);
+        }
+      }
+    });
+
+    const generatedDate = new Date().toLocaleString('ko-KR', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+
+    return {
+      student,
+      bookmarkedResults,
+      scoreDetails,
+      generatedDate
+    };
   };
 
   if (admissionData.length === 0) {
@@ -386,6 +454,23 @@ const Counseling: React.FC<CounselingProps> = ({ students, admissionData, rulesD
                 분석 결과 
                 <span className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full text-xs">{results.length}</span>
             </h3>
+            {selectedStudentId && (() => {
+              const pdfData = generatePDFData();
+              return pdfData ? (
+                <PDFDownloadLink
+                  document={<PDFReport {...pdfData} />}
+                  fileName={`${pdfData.student.name}_입시상담리포트_${new Date().toISOString().split('T')[0]}.pdf`}
+                  className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm font-medium shadow-sm"
+                >
+                  {({ loading }) => (
+                    <>
+                      <FileText size={16} />
+                      {loading ? 'PDF 생성 중...' : 'PDF 리포트 다운로드'}
+                    </>
+                  )}
+                </PDFDownloadLink>
+              ) : null;
+            })()}
           </div>
           
           <div className="flex-1 overflow-auto">
