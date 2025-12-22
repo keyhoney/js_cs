@@ -110,7 +110,7 @@ export interface ScoringFormula {
   };
   
   // New: Special calculation rules
-  specialRule?: 'math_or_exp_better' | 'max_of_language_and_math' | 'top_n_subjects' | 'top_kor_math' | 'max_of_two_formulas' | 'max_of_humanities_natural';
+  specialRule?: 'math_or_exp_better' | 'max_of_language_and_math' | 'top_n_subjects' | 'top_kor_math' | 'max_of_two_formulas' | 'max_of_humanities_natural' | 'exp_top1';
   
   // Configuration for special rules (optional)
   specialRuleConfig?: {

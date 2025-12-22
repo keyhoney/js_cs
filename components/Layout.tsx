@@ -24,7 +24,7 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, onTabChange, isAut
             <BookOpen className="text-blue-500" />
             정시 상담 <span className="text-blue-500">2026</span>
           </h1>
-          <p className="text-xs text-slate-500 mt-2">Last Updated: 2025.12.19.</p>
+          <p className="text-xs text-slate-500 mt-2">Last Updated: 2025.12.22.</p>
         </div>
 
         <nav className="flex-1 p-4 space-y-2">

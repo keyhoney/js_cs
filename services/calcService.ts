@@ -403,9 +403,12 @@ const calculateSingleFormula = (
   }
 
   // 탐구 반영 점수 결정
-  // - 탐구 1과목만 반영: 두 과목 중 높은 점수 사용
-  // - 탐구 2과목 반영: 두 과목 점수 합산
-  const expValToReflect = (restrictions?.expCount === 1) ? Math.max(exp1Val, exp2Val) : (exp1Val + exp2Val);
+  // - exp_top1 규칙 또는 expCount === 1: 가산점 적용 후 상위 1과목만 반영
+  // - 그 외: 두 과목 점수 합산
+  const expValToReflect = 
+    (formula.specialRule === 'exp_top1' || restrictions?.expCount === 1)
+      ? Math.max(exp1Val, exp2Val)  // 상위 1과목만 반영
+      : (exp1Val + exp2Val);  // 두 과목 합산
 
   // 3단계: 가중치 적용
   // 각 과목의 점수에 반영 비율(가중치)을 곱합니다
