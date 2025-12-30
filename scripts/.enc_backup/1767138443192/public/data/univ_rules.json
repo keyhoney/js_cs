@@ -1,0 +1,643 @@
+{
+  "version": "key_Honey_2026",
+  "rules": {
+    "경북대학교": {
+      "formulas": [
+        {
+          "id": "knu_humanities",
+          "label": "인문계열",
+          "type": "mixed_converted",
+          "weights": { "kor": 1.875, "math": 1.25, "eng": 1.25, "exp": 1.25 },
+          "english_table": [100, 97, 92, 87, 82, 77, 72, 67, 62],
+          "history_table": [10, 10, 10, 10, 9.8, 9.6, 9.4, 9.2, 9],
+          "conversion_table_id": "경북대학교_변표"
+        },
+        {
+          "id": "knu_natural",
+          "label": "자연계열",
+          "type": "mixed_converted",
+          "weights": { "kor": 1.25, "math": 1.875, "eng": 1.25, "exp": 1.25 },
+          "english_table": [100, 97, 92, 87, 82, 77, 72, 67, 62],
+          "history_table": [10, 10, 10, 10, 9.8, 9.6, 9.4, 9.2, 9],
+          "conversion_table_id": "경북대학교_변표",
+          "bonus": {
+            "exp": {
+              "subjects": ["물리학1", "화학1", "생명과학1", "지구과학1", "물리학2", "화학2", "생명과학2", "지구과학2"],
+              "ratio": 0.05
+            }
+          }
+        },
+        {
+          "id": "knu_mobile",
+          "label": "모바일공학(최저/필수지정)",
+          "type": "mixed_converted",
+          "weights": { "kor": 1.25, "math": 1.875, "eng": 1.25, "exp": 1.25 },
+          "english_table": [100, 97, 92, 87, 82, 77, 72, 67, 62],
+          "history_table": [10, 10, 10, 10, 9.8, 9.6, 9.4, 9.2, 9],
+          "conversion_table_id": "경북대학교_변표",
+          "restrictions": {
+            "math": ["미적분", "기하"],
+            "exp": ["물리학1", "화학1", "생명과학1", "지구과학1", "물리학2", "화학2", "생명과학2", "지구과학2"],
+            "expCount": 2
+          },
+          "minGradeRequirement": {
+            "type": "sum_math_exp_avg_trunc",
+            "limit": 3
+          }
+        },
+        {
+          "id": "knu_autonomous",
+          "label": "자율전공",
+          "type": "mixed_converted",
+          "weights": { "kor": 1.5625, "math": 1.5625, "eng": 1.25, "exp": 1.25 },
+          "english_table": [100, 97, 92, 87, 82, 77, 72, 67, 62],
+          "history_table": [10, 10, 10, 10, 9.8, 9.6, 9.4, 9.2, 9],
+          "conversion_table_id": "경북대학교_변표"
+        },
+        {
+          "id": "knu_scitech",
+          "label": "상주캠퍼스 (국어미반영)",
+          "type": "mixed_converted",
+          "weights": { "kor": 0, "math": 2.5, "eng": 2.5, "exp": 1.25 },
+          "english_table": [100, 97, 92, 87, 82, 77, 72, 67, 62],
+          "history_table": [10, 10, 10, 10, 9.8, 9.6, 9.4, 9.2, 9],
+          "conversion_table_id": "경북대학교_변표",
+          "bonus": {
+            "exp": {
+              "subjects": ["물리학1", "화학1", "생명과학1", "지구과학1", "물리학2", "화학2", "생명과학2", "지구과학2"],
+              "ratio": 0.05
+            }
+          }
+        },
+        {
+          "id": "knu_art_design_csat",
+          "label": "미술/디자인(수능100)",
+          "type": "mixed_converted",
+          "weights": { "kor": 2.5, "math": 0, "eng": 2.5, "exp": 2.5 },
+          "english_table": [100, 97, 92, 87, 82, 77, 72, 67, 62],
+          "history_table": [10, 10, 10, 10, 9.8, 9.6, 9.4, 9.2, 9],
+          "conversion_table_id": "경북대학교_변표"
+        },
+        {
+          "id": "knu_sports_edu",
+          "label": "체육교육 (800점)",
+          "type": "mixed_converted",
+          "weights": { "kor": 1.875, "math": 1.25, "eng": 0.625, "exp": 1.25 },
+          "english_table": [100, 97, 92, 87, 82, 77, 72, 67, 62],
+          "history_table": [10, 10, 10, 10, 9.8, 9.6, 9.4, 9.2, 9],
+          "conversion_table_id": "경북대학교_변표"
+        }
+      ]
+    },
+    "영남대학교": {
+      "formulas": [
+        {
+          "id": "yu_humanities",
+          "label": "인문사회계열",
+          "type": "percentile",
+          "weights": { "kor": 2.4, "math": 2.0, "eng": 2.0, "exp": 0.8 },
+          "english_table": [100, 95, 90, 85, 80, 75, 70, 65, 60],
+          "history_table": [10, 9.8, 9.6, 9.4, 9.2, 9.0, 8.8, 8.6, 8.4]
+        },
+        {
+          "id": "yu_natural",
+          "label": "자연계열 (수/탐 5%가산)",
+          "type": "percentile",
+          "weights": { "kor": 1.6, "math": 2.4, "eng": 2.0, "exp": 1.0 },
+          "english_table": [100, 95, 90, 85, 80, 75, 70, 65, 60],
+          "history_table": [10, 9.8, 9.6, 9.4, 9.2, 9.0, 8.8, 8.6, 8.4],
+          "bonus": {
+            "math": { "subjects": ["미적분", "기하"], "ratio": 0.05 },
+            "exp": { "subjects": ["물리학1", "화학1", "생명과학1", "지구과학1", "물리학2", "화학2", "생명과학2", "지구과학2"], "ratio": 0.05 }
+          }
+        },
+        {
+          "id": "yu_average",
+          "label": "균등환산",
+          "type": "percentile",
+          "weights": { "kor": 2.0, "math": 2.0, "eng": 2.0, "exp": 1.0 },
+          "english_table": [100, 95, 90, 85, 80, 75, 70, 65, 60],
+          "history_table": [10, 9.8, 9.6, 9.4, 9.2, 9.0, 8.8, 8.6, 8.4]
+        },
+        {
+          "id": "yu_med_pharm",
+          "label": "의예·약학",
+          "type": "percentile",
+          "weights": { "kor": 2.0, "math": 2.8, "eng": 0.8, "exp": 1.2 },
+          "english_table": [80, 75, 70, 65, 60, 55, 50, 45, 40],
+          "history_table": [10, 9.8, 9.6, 9.4, 9.2, 9.0, 8.8, 8.6, 8.4],
+          "restrictions": {
+            "exp": ["물리학1", "화학1", "생명과학1", "지구과학1", "물리학2", "화학2", "생명과학2", "지구과학2"],
+            "expCount": 2
+          }
+        },
+        {
+          "id": "yu_top3",
+          "label": "체육/디자인 (상위 3개 영역 480점)",
+          "type": "percentile",
+          "weights": { "kor": 1.6, "math": 1.6, "eng": 1.6, "exp": 1.6 },
+          "specialRule": "top_n_subjects",
+          "specialRuleConfig": {
+            "topN": { "n": 3, "ratios": [33.3, 33.3, 33.3], "subjects": ["kor", "math", "eng", "exp"] }
+          },
+          "english_table": [100, 95, 90, 85, 80, 75, 70, 65, 60],
+          "history_table": [10, 9.8, 9.6, 9.4, 9.2, 9.0, 8.8, 8.6, 8.4]
+        }
+      ]
+    },
+    "계명대학교": {
+      "formulas": [
+        {
+          "id": "kmu_humanities",
+          "label": "인문사회",
+          "type": "percentile",
+          "weights": { "kor": 1, "math": 1, "eng": 1, "exp": 0.5 },
+          "english_table": [100, 98, 94, 90, 86, 82, 78, 74, 60],
+          "history_table": [5, 5, 4.5, 4.5, 4, 4, 3.5, 3.5, 3]
+        },
+        {
+          "id": "kmu_natural",
+          "label": "자연공학(과탐가산)",
+          "type": "percentile",
+          "weights": { "kor": 1, "math": 1, "eng": 1, "exp": 0.5 },
+          "english_table": [100, 98, 94, 90, 86, 82, 78, 74, 60],
+          "history_table": [5, 5, 4.5, 4.5, 4, 4, 3.5, 3.5, 3],
+          "bonus": {
+            "exp": {
+              "subjects": ["물리학1", "화학1", "생명과학1", "지구과학1", "물리학2", "화학2", "생명과학2", "지구과학2"],
+              "ratio": 0.05
+            }
+          }
+        },
+        {
+          "id": "kmu_med_pharm",
+          "label": "의예/약학)",
+          "type": "percentile",
+          "weights": { "kor": 1, "math": 1.2, "eng": 0.8, "exp": 0.5 },
+          "english_table": [100, 98, 94, 90, 86, 82, 78, 74, 60],
+          "history_table": [5, 5, 4.5, 4.5, 4, 4, 3.5, 3.5, 3],
+          "restrictions": {
+            "math": ["미적분", "기하"],
+            "exp": ["물리학1", "화학1", "생명과학1", "지구과학1", "물리학2", "화학2", "생명과학2", "지구과학2"],
+            "expCount": 2
+          }
+        },
+        {
+          "id": "kmu_autonomous",
+          "label": "자율전공부",
+          "type": "percentile",
+          "weights": { "kor": 1, "math": 1, "eng": 1, "exp": 0.5 },
+          "english_table": [100, 98, 94, 90, 86, 82, 78, 74, 60],
+          "history_table": [5, 5, 4.5, 4.5, 4, 4, 3.5, 3.5, 3],
+          "bonus": {
+            "exp": {
+              "subjects": ["물리학1", "화학1", "생명과학1", "지구과학1", "물리학2", "화학2", "생명과학2", "지구과학2"],
+              "ratio": 0.05
+            }
+          }
+        },
+        {
+          "id": "kmu_arts_top",
+          "label": "예체능 (우수2영역)",
+          "type": "percentile",
+          "weights": { "kor": 0, "math": 0, "eng": 0.9, "exp": 0 },
+          "english_table": [100, 98, 94, 90, 86, 82, 78, 74, 60],
+          "history_table": [3.75, 3.75, 3.375, 3.375, 3, 3, 2.625, 2.625, 2.25],
+          "specialRule": "top_n_subjects",
+          "specialRuleConfig": {
+            "topN": {
+              "subjects": ["kor", "math", "exp"],
+              "n": 2,
+              "ratios": [40, 30]
+            }
+          }
+        }
+      ]
+    },
+    "부경대학교": {
+      "formulas": [
+        {
+          "id": "pknu_humanities",
+          "label": "인문·사회/패션",
+          "type": "standard",
+          "weights": { "kor": 1.5, "math": 1.25, "eng": 1.0, "exp": 1.25 },
+          "english_table": [200, 194, 186, 176, 164, 152, 140, 128, 128],
+          "history_table": [10, 10, 10, 10, 9.8, 9.6, 9.4, 0, 0],
+          "bonusType": "pknu_additive"
+        },
+        {
+          "id": "pknu_natural_a",
+          "label": "공과/정보/자연A (25/30/20/25 + 10%가산)",
+          "type": "standard",
+          "weights": { "kor": 1.25, "math": 1.5, "eng": 1.0, "exp": 1.25 },
+          "english_table": [200, 194, 186, 176, 164, 152, 140, 128, 128],
+          "history_table": [10, 10, 10, 10, 9.8, 9.6, 9.4, 0, 0],
+          "bonus": {
+            "math": { "subjects": ["미적분", "기하"], "ratio": 0.1 },
+            "exp": { "subjects": ["물리학1", "화학1", "생명과학1", "지구과학1", "물리학2", "화학2", "생명과학2", "지구과학2"], "ratio": 0.03 }
+          },
+          "bonusType": "pknu_additive"
+        },
+        {
+          "id": "pknu_natural_b",
+          "label": "수산/환경/자연B (25/30/20/25 + 7%가산)",
+          "type": "standard",
+          "weights": { "kor": 1.25, "math": 1.5, "eng": 1.0, "exp": 1.25 },
+          "english_table": [200, 194, 186, 176, 164, 152, 140, 128, 128],
+          "history_table": [10, 10, 10, 10, 9.8, 9.6, 9.4, 0, 0],
+          "bonus": {
+            "math": { "subjects": ["미적분", "기하"], "ratio": 0.07 },
+            "exp": { "subjects": ["물리학1", "화학1", "생명과학1", "지구과학1", "물리학2", "화학2", "생명과학2", "지구과학2"], "ratio": 0.03 }
+          },
+          "bonusType": "pknu_additive"
+        },
+        {
+          "id": "pknu_autonomous",
+          "label": "자유전공/공통 (30/30/20/20)",
+          "type": "standard",
+          "weights": { "kor": 1.5, "math": 1.5, "eng": 1.0, "exp": 1.0 },
+          "english_table": [200, 194, 186, 176, 164, 152, 140, 128, 128],
+          "history_table": [10, 10, 10, 10, 9.8, 9.6, 9.4, 0, 0],
+          "bonus": {
+            "math": { "subjects": ["미적분", "기하"], "ratio": 0.1 },
+            "exp": { "subjects": ["물리학1", "화학1", "생명과학1", "지구과학1", "물리학2", "화학2", "생명과학2", "지구과학2"], "ratio": 0.03 }
+          },
+          "bonusType": "pknu_additive"
+        },
+        {
+          "id": "pknu_design",
+          "label": "조형학부/예체능 (35/0/35/30)",
+          "type": "standard",
+          "weights": { "kor": 1.75, "math": 0, "eng": 1.75, "exp": 1.5 },
+          "english_table": [200, 194, 186, 176, 164, 152, 140, 128, 128],
+          "history_table": [10, 10, 10, 10, 9.8, 9.6, 9.4, 0, 0],
+          "bonusType": "pknu_additive"
+        }
+      ]
+    },
+    "충남대학교": {
+      "formulas": [
+        {
+          "id": "cnu_humanities",
+          "label": "인문계열",
+          "type": "standard",
+          "weights": { "kor": 0.675, "math": 0.375, "eng": 1.0, "exp": 0.45 },
+          "english_table": [0, -2, -5, -8, -11, -14, -18, -22, -26],
+          "history_table": [0, 0, 0, -1, -1, -1, -2, -2, -2]
+        },
+        {
+          "id": "cnu_natural_bonus",
+          "label": "자연계열 (과탐 10%)",
+          "type": "standard",
+          "weights": { "kor": 0.375, "math": 0.675, "eng": 1.0, "exp": 0.45 },
+          "english_table": [0, -2, -5, -8, -11, -14, -18, -22, -26],
+          "history_table": [0, 0, 0, -1, -1, -1, -2, -2, -2],
+          "bonus": {
+            "exp": { "subjects": ["물리학1", "화학1", "생명과학1", "지구과학1", "물리학2", "화학2", "생명과학2", "지구과학2"], "ratio": 0.1 }
+          }
+        },
+        {
+          "id": "cnu_natural_pure",
+          "label": "자연계열 (가산점 없음 - 수학/정보통계)",
+          "type": "standard",
+          "weights": { "kor": 0.375, "math": 0.675, "eng": 1.0, "exp": 0.45 },
+          "english_table": [0, -2, -5, -8, -11, -14, -18, -22, -26],
+          "history_table": [0, 0, 0, -1, -1, -1, -2, -2, -2],
+          "restrictions": {
+            "math": ["미적분", "기하"]
+          }
+        },
+        {
+          "id": "cnu_security",
+          "label": "국가안보융합학부",
+          "type": "standard",
+          "weights": { "kor": 0.6, "math": 0.45, "eng": 1.0, "exp": 0.45 },
+          "english_table": [0, -2, -5, -8, -11, -14, -18, -22, -26],
+          "history_table": [0, 0, 0, -1, -1, -1, -2, -2, -2]
+        },
+        {
+          "id": "cnu_free_major",
+          "label": "자율전공/창의융합",
+          "type": "standard",
+          "weights": { "kor": 0.525, "math": 0.525, "eng": 1.0, "exp": 0.45 },
+          "english_table": [0, -2, -5, -8, -11, -14, -18, -22, -26],
+          "history_table": [0, 0, 0, -1, -1, -1, -2, -2, -2]
+        },
+        {
+          "id": "cnu_arts_music",
+          "label": "예술대학 음악계열 (국60%)",
+          "type": "standard",
+          "weights": { "kor": 0.3, "math": 0, "eng": 1.0, "exp": 0.1 },
+          "english_table": [0, -0.5, -1, -1.5, -2, -2.5, -3, -3.5, -4],
+          "history_table": [0, 0, 0, -1, -1, -1, -2, -2, -2]
+        }
+      ]
+    },
+    "충북대학교": {
+      "formulas": [
+        {
+          "id": "cbnu_human",
+          "label": "인문계열",
+          "type": "normalized_std",
+          "baseScore": 800,
+          "weights": { "kor": 60, "math": 40, "eng": 1, "exp": 30 },
+          "english_table": [40, 38, 36, 34, 32, 30, 28, 16, 0],
+          "history_table": [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        },
+        {
+          "id": "cbnu_natural_1",
+          "label": "자연계열",
+          "type": "normalized_std",
+          "baseScore": 800,
+          "weights": { "kor": 40, "math": 60, "eng": 1, "exp": 30 },
+          "english_table": [40, 38, 36, 34, 32, 30, 28, 16, 0],
+          "history_table": [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        },
+        {
+          "id": "cbnu_natural_2",
+          "label": "자연계열(과탐 필수)",
+          "type": "normalized_std",
+          "baseScore": 800,
+          "weights": { "kor": 40, "math": 60, "eng": 1, "exp": 30 },
+          "english_table": [40, 38, 36, 34, 32, 30, 28, 16, 0],
+          "history_table": [0, 0, 0, 0, 0, 0, 0, 0, 0],
+          "restrictions": {
+            "exp": ["물리학1", "화학1", "생명과학1", "지구과학1", "물리학2", "화학2", "생명과학2", "지구과학2"],
+            "expCount": 2
+          }
+        },
+        {
+          "id": "cbnu_natural_3",
+          "label": "자연계열 (미기+과탐 필수)",
+          "type": "normalized_std",
+          "baseScore": 800,
+          "weights": { "kor": 40, "math": 60, "eng": 1, "exp": 30 },
+          "english_table": [40, 38, 36, 34, 32, 30, 28, 16, 0],
+          "history_table": [0, 0, 0, 0, 0, 0, 0, 0, 0],
+          "restrictions": {
+            "math": ["미적분", "기하"],
+            "exp": ["물리학1", "화학1", "생명과학1", "지구과학1", "물리학2", "화학2", "생명과학2", "지구과학2"],
+            "expCount": 2
+          }
+        },
+        {
+          "id": "cbnu_arts",
+          "label": "예술대학 (디자인 등 - 기본300/국120/영20/탐80)",
+          "type": "normalized_std",
+          "baseScore": 300,
+          "weights": { "kor": 120, "math": 0, "eng": 1, "exp": 40 },
+          "english_table": [20, 19, 18, 17, 16, 15, 14, 8, 0],
+          "history_table": [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        },
+        {
+          "id": "cbnu_sports",
+          "label": "체육교육과 (기본430/국88/영44/탐88)",
+          "type": "normalized_std",
+          "baseScore": 430,
+          "weights": { "kor": 88, "math": 0, "eng": 1, "exp": 44 },
+          "english_table": [44, 41.8, 39.6, 37.4, 35.2, 33, 30.8, 17.6, 0],
+          "history_table": [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        }
+      ]
+    },
+    "한국해양대학교": {
+      "formulas": [
+        {
+          "id": "kmou_haesa",
+          "label": "해사대학 (수학10%)",
+          "type": "standard",
+          "weights": { "kor": 0.9, "math": 1.3, "eng": 1.0, "exp": 0.8 },
+          "english_table": [200, 196, 190, 180, 160, 140, 120, 100, 80],
+          "history_table": [3, 2.5, 2, 1.5, 1, 0.5, 0, 0, 0],
+          "bonus": {
+            "math": { "subjects": ["미적분", "기하"], "ratio": 0.1 }
+          }
+        },
+        {
+          "id": "kmou_haesa_police",
+          "label": "해양경찰학부",
+          "type": "standard",
+          "weights": { "kor": 0.9, "math": 1.3, "eng": 1.0, "exp": 0.8 },
+          "english_table": [200, 196, 190, 180, 160, 140, 120, 100, 80],
+          "history_table": [3, 2.5, 2, 1.5, 1, 0.5, 0, 0, 0]
+        },
+        {
+          "id": "kmou_natural_st",
+          "label": "해양과학기술융합 (수20%+과10%)",
+          "type": "standard",
+          "weights": { "kor": 0.9, "math": 1.3, "eng": 1.0, "exp": 0.8 },
+          "english_table": [200, 196, 190, 180, 160, 140, 120, 100, 80],
+          "history_table": [3, 2.5, 2, 1.5, 1, 0.5, 0, 0, 0],
+          "bonus": {
+            "math": { "subjects": ["미적분", "기하"], "ratio": 0.2 },
+            "exp": { "subjects": ["물리학1", "화학1", "생명과학1", "지구과학1", "물리학2", "화학2", "생명과학2", "지구과학2"], "ratio": 0.1 }
+          }
+        },
+        {
+          "id": "kmou_humanities",
+          "label": "인문사회계열",
+          "type": "standard",
+          "weights": { "kor": 1.3, "math": 0.9, "eng": 1.0, "exp": 0.8 },
+          "english_table": [200, 196, 190, 180, 160, 140, 120, 100, 80],
+          "history_table": [3, 2.5, 2, 1.5, 1, 0.5, 0, 0, 0]
+        },
+        {
+          "id": "kmou_sports",
+          "label": "해양스포츠과학",
+          "type": "standard",
+          "weights": { "kor": 1.125, "math": 0, "eng": 0.75, "exp": 1.125 },
+          "english_table": [200, 196, 190, 180, 160, 140, 120, 100, 80],
+          "history_table": [2.25, 1.875, 1.5, 1.125, 0.75, 0.375, 0, 0, 0]
+        }
+      ]
+    },
+    "금오공과대학교": {
+      "formulas": [
+        {
+          "id": "kit_eng",
+          "label": "공학/자율전공 (상위3개)",
+          "type": "percentile",
+          "weights": {
+            "kor": 0.33333333,
+            "math": 0.33333333,
+            "eng": 0.33333333,
+            "exp": 0.33333333
+          },
+          "english_table": [100, 95, 90, 85, 80, 75, 70, 65, 60],
+          "history_table": [1, 1, 1, 1, 0.9, 0.8, 0.7, 0.6, 0.5],
+          "bonus": {
+            "math": {
+              "subjects": ["미적분", "기하"],
+              "ratio": 0.15
+            }
+          },
+          "restrictions": {
+            "expCount": 1
+          },
+          "specialRule": "top_n_subjects",
+          "specialRuleConfig": {
+            "topN": {
+              "subjects": ["kor", "math", "eng", "exp"],
+              "n": 3,
+              "ratios": [33.333333, 33.333333, 33.333333]
+            }
+          }
+        },
+        {
+          "id": "kit_biz",
+          "label": "경영학과 (상위3개)",
+          "type": "percentile",
+          "weights": {
+            "kor": 0.33333333,
+            "math": 0.33333333,
+            "eng": 0.33333333,
+            "exp": 0.33333333
+          },
+          "english_table": [100, 95, 90, 85, 80, 75, 70, 65, 60],
+          "history_table": [1, 1, 1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4],
+          "restrictions": {
+            "expCount": 1
+          },
+          "specialRule": "top_n_subjects",
+          "specialRuleConfig": {
+            "topN": {
+              "subjects": ["kor", "math", "eng", "exp"],
+              "n": 3,
+              "ratios": [33.333333, 33.333333, 33.333333]
+            }
+          }
+        }
+      ]
+    },
+    "부산대학교": {
+      "formulas": [
+        {
+          "id": "pnu_humanities",
+          "label": "인문·사회계열",
+          "type": "mixed_converted",
+          "conversion_table_id": "부산대학교_변표",
+          "weights": { "kor": 1.5, "math": 1.25, "eng": 1.0, "exp": 1.25 },
+          "english_table": [200, 198, 195, 190, 185, 180, 175, 170, 165],
+          "history_table": [10, 10, 10, 10, 9.8, 9.6, 9.4, 9.2, 9.0]
+        },
+        {
+          "id": "pnu_natural_1",
+          "label": "자연계열[1] (미/기, 과탐 필수)",
+          "type": "mixed_converted",
+          "conversion_table_id": "부산대학교_변표",
+          "weights": { "kor": 1.0, "math": 1.5, "eng": 1.0, "exp": 1.5 },
+          "english_table": [200, 198, 195, 190, 185, 180, 175, 170, 165],
+          "history_table": [10, 10, 10, 10, 9.8, 9.6, 9.4, 9.2, 9.0],
+          "restrictions": {
+            "math": ["미적분", "기하"],
+            "exp": ["물리학1", "화학1", "생명과학1", "지구과학1", "물리학2", "화학2", "생명과학2", "지구과학2"],
+            "expCount": 2
+          }
+        },
+        {
+          "id": "pnu_natural_2",
+          "label": "자연계열[2] (과탐 필수)",
+          "type": "mixed_converted",
+          "conversion_table_id": "부산대학교_변표",
+          "weights": { "kor": 1.0, "math": 1.5, "eng": 1.0, "exp": 1.5 },
+          "english_table": [200, 198, 195, 190, 185, 180, 175, 170, 165],
+          "history_table": [10, 10, 10, 10, 9.8, 9.6, 9.4, 9.2, 9.0],
+          "restrictions": {
+            "exp": ["물리학1", "화학1", "생명과학1", "지구과학1", "물리학2", "화학2", "생명과학2", "지구과학2"],
+            "expCount": 2
+          }
+        },
+        {
+          "id": "pnu_natural_3",
+          "label": "자연계열[3] (과탐 5% 가산)",
+          "type": "mixed_converted",
+          "conversion_table_id": "부산대학교_변표",
+          "weights": { "kor": 1.0, "math": 1.5, "eng": 1.0, "exp": 1.5 },
+          "english_table": [200, 198, 195, 190, 185, 180, 175, 170, 165],
+          "history_table": [10, 10, 10, 10, 9.8, 9.6, 9.4, 9.2, 9.0],
+          "bonus": {
+            "exp": { "subjects": ["물리학1", "화학1", "생명과학1", "지구과학1", "물리학2", "화학2", "생명과학2", "지구과학2"], "ratio": 0.05 }
+          }
+        },
+        {
+          "id": "pnu_natural_4",
+          "label": "자연계열[3]",
+          "type": "mixed_converted",
+          "conversion_table_id": "부산대학교_변표",
+          "weights": { "kor": 1.0, "math": 1.5, "eng": 1.0, "exp": 1.5 },
+          "english_table": [200, 198, 195, 190, 185, 180, 175, 170, 165],
+          "history_table": [10, 10, 10, 10, 9.8, 9.6, 9.4, 9.2, 9.0]
+        },
+        {
+          "id": "pnu_autonomous",
+          "label": "자유전공",
+          "type": "mixed_converted",
+          "conversion_table_id": "부산대학교_변표",
+          "weights": { "kor": 1.5, "math": 1.5, "eng": 1.0, "exp": 1 },
+          "english_table": [200, 198, 195, 190, 185, 180, 175, 170, 165],
+          "history_table": [10, 10, 10, 10, 9.8, 9.6, 9.4, 9.2, 9.0]
+        },
+        {
+          "id": "pnu_med_dent",
+          "label": "의예·치의예·한의예",
+          "type": "mixed_converted",
+          "conversion_table_id": "부산대학교_변표",
+          "weights": { "kor": 0.8, "math": 1.2, "eng": 1.0, "exp": 1.2 },
+          "english_table": [160, 158.4, 156, 152, 148, 144, 140, 136, 132],
+          "history_table": [10, 10, 10, 10, 9.8, 9.6, 9.4, 9.2, 9.0],
+          "restrictions": {
+            "math": ["미적분", "기하"],
+            "exp": ["물리학1", "화학1", "생명과학1", "지구과학1", "물리학2", "화학2", "생명과학2", "지구과학2"],
+            "expCount": 2
+          }
+        },
+        {
+          "id": "pnu_arts",
+          "label": "예술대학",
+          "type": "mixed_converted",
+          "conversion_table_id": "부산대학교_변표",
+          "weights": { "kor": 1.5, "math": 0, "eng": 1.0, "exp": 1.0 },
+          "english_table": [100, 99, 97.5, 95, 92.5, 90, 87.5, 85, 82.5],
+          "history_table": [10, 10, 10, 10, 9.8, 9.6, 9.4, 9.2, 9.0]
+        },
+        {
+          "id": "pnu_sports",
+          "label": "스포츠과학",
+          "type": "mixed_converted",
+          "conversion_table_id": "부산대학교_변표",
+          "weights": { "kor": 1.5, "math": 0, "eng": 1.0, "exp": 1.5 },
+          "english_table": [200, 198, 195, 190, 185, 180, 175, 170, 165],
+          "history_table": [10, 10, 10, 10, 9.8, 9.6, 9.4, 9.2, 9.0]
+        }
+      ]
+    },
+    "대구대학교": {
+      "formulas": [
+        {
+          "id": "dgu_humanities",
+          "label": "인문사회(백분위/등급, 탐구 상위1)",
+          "type": "percentile",
+          "weights": { "kor": 2.7, "math": 1.8, "eng": 2.7, "exp": 1.8 },
+          "english_table": [100, 97, 94, 91, 88, 85, 82, 79, 76],
+          "history_table": [5, 5, 4, 4, 3, 2, 1, 0, 0],
+          "specialRule": "exp_top1"
+        },
+        {
+          "id": "dgu_natural_eng",
+          "label": "자연/공학(백분위/등급, 과탐 5% 가산, 탐구 상위1)",
+          "type": "percentile",
+          "weights": { "kor": 1.8, "math": 2.7, "eng": 2.7, "exp": 1.8 },
+          "english_table": [100, 97, 94, 91, 88, 85, 82, 79, 76],
+          "history_table": [5, 5, 4, 4, 3, 2, 1, 0, 0],
+          "bonus": {
+            "exp": {
+              "subjects": ["물리학1", "화학1", "생명과학1", "지구과학1", "물리학2", "화학2", "생명과학2", "지구과학2"],
+              "ratio": 0.05
+            }
+          },
+          "specialRule": "exp_top1"
+        }
+      ]
+    }
+  }
+}
