@@ -1321,21 +1321,6 @@
   },
   {
 
-    "univName": "경북대학교",
-    "deptName": "섬유패션디자인학부-섬유공학",
-    "scoringClass": "knu_scitech",
-    "group": "가",
-    "recruitmentCount": 4,
-    "safeCut": 666.110732400086,
-    "matchCut": 657.70127560358,
-    "upwardCut": 647.534454985418,
-    "initialRecruitmentCount": 4,
-    "earlyAdmissionCarryover": 3,
-    "finalRecruitmentCount": 7,
-    "lastYearCompetitionRate": 6
-  },
-  {
-
     "univName": "계명대학교",
     "deptName": "경영빅데이터학과",
     "scoringClass": "kmu_humanities",
